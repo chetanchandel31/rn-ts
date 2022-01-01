@@ -11,7 +11,7 @@ const initialState: UserInStore = {
   loading: true,
   isAuthenticated: false,
 };
-// TODO: better types
+
 export default (state = initialState, action: any): UserInStore => {
   switch (action.type) {
     case SET_USER:

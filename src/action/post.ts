@@ -1,16 +1,10 @@
 import database from "@react-native-firebase/database";
 import { Dispatch } from "redux";
 import { AppState } from "../store";
-import {
-  AppActions,
-  ErrorPostAction,
-  ERROR_POST,
-  GET_POSTS,
-} from "./action.types";
+import { AppActions, ERROR_POST, GET_POSTS } from "./action.types";
 
 export const getPosts = () => {
   return async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    // TODO: type getState after working on store
     try {
       database()
         .ref("/posts/")
