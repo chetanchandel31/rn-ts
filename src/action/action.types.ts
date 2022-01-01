@@ -27,4 +27,4 @@ export type PostActionTypes =
   | DeletePostAction
   | ErrorPostAction;
 
-export type AppActions = PostActionTypes;
+export type AppActions = PostActionTypes; // use union to add other action types
