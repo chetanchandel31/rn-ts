@@ -1,18 +1,14 @@
 import { IS_AUTHENTICATED, SET_USER } from "../action/action.types";
+import { AuthState } from "../types";
 
-interface UserInStore {
-  user: null | Object; // TODO: change
-  loading: boolean;
-  isAuthenticated: boolean;
-}
-
-const initialState: UserInStore = {
+const initialState: AuthState = {
   user: null,
   loading: true,
   isAuthenticated: false,
 };
 
-export default (state = initialState, action: any): UserInStore => {
+export default (state = initialState, action: any): AuthState => {
+  // TODO: auth action types once we know more about SET_USER
   switch (action.type) {
     case SET_USER:
       return {

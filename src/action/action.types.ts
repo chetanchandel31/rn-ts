@@ -22,9 +22,23 @@ export interface ErrorPostAction {
   type: typeof ERROR_POST;
 }
 
+// auth actions
+export interface IsAuthenticated {
+  type: typeof IS_AUTHENTICATED;
+  payload: boolean;
+}
+
+export interface SetUser {
+  type: typeof SET_USER;
+  payload: any;
+}
+
+// broader action types
+export type AuthActionTypes = IsAuthenticated | SetUser;
+
 export type PostActionTypes =
   | GetPostsAction
   | DeletePostAction
   | ErrorPostAction;
 
-export type AppActions = PostActionTypes; // use union to add other action types
+export type AppActions = PostActionTypes | AuthActionTypes; // use union to add other action types
