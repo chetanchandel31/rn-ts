@@ -1,23 +1,7 @@
 import auth from "@react-native-firebase/auth";
 import database from "@react-native-firebase/database";
 import Snackbar from "react-native-snackbar";
-
-type SignupDetails = {
-  name: string;
-  instaUserName: string;
-  bio: string;
-  email: string;
-  password: string;
-  country: string;
-  image: string;
-} & {
-  [prop: string]: string;
-};
-
-type SigninDetails = {
-  email: string;
-  password: string;
-};
+import { SigninDetails, SignupDetails } from "../types";
 
 // should be using async/await inside these functions
 
