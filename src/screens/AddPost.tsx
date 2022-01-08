@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, ScrollView, Image } from "react-native";
 import {
   Container,
@@ -8,24 +8,26 @@ import {
   Input,
   Text,
   Button,
-  H3,
   Textarea,
   Icon,
 } from "native-base";
-
-import Snackbar from "react-native-snackbar";
 import { Bar } from "react-native-progress";
 
-import database from "@react-native-firebase/database";
 import storage from "@react-native-firebase/storage";
 
 import ImagePicker, { ImagePickerResponse } from "react-native-image-picker";
 import { options } from "../utils/options";
+
 import { AppState } from "../store";
 import { connect } from "react-redux";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
-const AddPost = ({ navigation, userState }: any) => {
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../App";
+
+type AddPostProps = LinkStateProps & NativeStackScreenProps<RootStackParamList>;
+
+const AddPost = ({ navigation, userState }: AddPostProps) => {
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
@@ -143,7 +145,7 @@ const AddPost = ({ navigation, userState }: any) => {
 };
 
 interface LinkStateProps {
-  userState: FirebaseAuthTypes.User;
+  userState: FirebaseAuthTypes.User | null;
 }
 
 const mapStateToProps = (state: AppState): LinkStateProps => ({

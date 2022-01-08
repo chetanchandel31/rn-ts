@@ -52,7 +52,7 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
             />
           </Item>
           <Button rounded block onPress={() => signIn({ email, password })}>
-            <Text>SignIn</Text>
+            <Text>Sign In</Text>
           </Button>
           <TouchableOpacity
             onPress={() => navigation.navigate("SignUp")}

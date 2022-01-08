@@ -6,7 +6,7 @@ export interface Post {
 
 // store
 export interface AuthState {
-  user: FirebaseAuthTypes.User; // TODO: change
+  user: FirebaseAuthTypes.User | null; // TODO: change
   loading: boolean;
   isAuthenticated: boolean;
 }

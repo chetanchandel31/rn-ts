@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Text } from "react-native";
 import CustomHeader from "./layout/CustomHeader";
 import EmptyContainer from "./components/EmptyContainer";
 import { requestPermission } from "./utils/askPermission";
@@ -39,14 +38,14 @@ interface AppProps {
 const App = ({ authState }: AppProps) => {
   const dispatch = useAppDispatch();
 
-  const onAuthStateChanged = (user: any) => {
+  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
     if (user) {
       dispatch({ type: IS_AUTHENTICATED, payload: true });
 
-      console.log(user._user.uid);
+      console.log(user.uid, "UID");
 
       database()
-        .ref(`/users/${user._user.uid}`)
+        .ref(`/users/${user.uid}`)
         .on("value", (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
           console.log("USER DETAILS", snapshot.val());
           dispatch({
@@ -56,6 +55,7 @@ const App = ({ authState }: AppProps) => {
         });
     } else {
       dispatch({ type: IS_AUTHENTICATED, payload: false });
+      // TODO: am action to remove user?
     }
   };
 
