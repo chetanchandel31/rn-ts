@@ -10,6 +10,7 @@ import { signIn } from "../action/auth";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
 import { SigninDetails } from "../types";
+import Snackbar from "react-native-snackbar";
 
 type SignInProps = NativeStackScreenProps<RootStackParamList> &
   LinkDispatchProps;
@@ -17,6 +18,23 @@ type SignInProps = NativeStackScreenProps<RootStackParamList> &
 const SignIn = ({ navigation, signIn }: SignInProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const doSignIn = ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    if (!email || !password)
+      return Snackbar.show({
+        text: "Please add all fields",
+        textColor: "white",
+        backgroundColor: "red",
+      });
+
+    signIn({ email, password });
+  };
 
   return (
     <Container style={styles.container}>
@@ -51,7 +69,7 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
               onChangeText={(text) => setPassword(text)}
             />
           </Item>
-          <Button rounded block onPress={() => signIn({ email, password })}>
+          <Button rounded block onPress={() => doSignIn({ email, password })}>
             <Text>Sign In</Text>
           </Button>
           <TouchableOpacity

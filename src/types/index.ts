@@ -1,18 +1,15 @@
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
-
 export interface Post {
   description: string;
+  location: string;
+  picture: string;
+  by: string;
+  date: number;
+  instaId: string;
+  userImage: string;
 }
 
-// store
-export interface AuthState {
-  user: FirebaseAuthTypes.User | null; // TODO: change
-  loading: boolean;
-  isAuthenticated: boolean;
-}
-
-// auth
-export type SignupDetails = {
+// schema for user object that we store in db is different from firebase's default user object's schema
+export interface UserDetails {
   name: string;
   instaUserName: string;
   bio: string;
@@ -20,9 +17,17 @@ export type SignupDetails = {
   password: string;
   country: string;
   image: string;
-} & {
-  [prop: string]: string;
-};
+}
+
+// store
+export interface AuthState {
+  isAuthenticated: boolean;
+  loading: boolean;
+  user: null | UserDetails; // TODO: change
+}
+
+// auth
+export type SignupDetails = UserDetails;
 
 export type SigninDetails = {
   email: string;

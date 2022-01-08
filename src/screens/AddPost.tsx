@@ -11,9 +11,12 @@ import {
   Textarea,
   Icon,
 } from "native-base";
+
 import { Bar } from "react-native-progress";
+import shortid from "shortid";
 
 import storage from "@react-native-firebase/storage";
+import database from "@react-native-firebase/database";
 
 import ImagePicker, { ImagePickerResponse } from "react-native-image-picker";
 import { options } from "../utils/options";
@@ -21,9 +24,10 @@ import { options } from "../utils/options";
 import { AppState } from "../store";
 import { connect } from "react-redux";
 
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../App";
+import Snackbar from "react-native-snackbar";
+import { Post, UserDetails } from "../types";
 
 type AddPostProps = LinkStateProps & NativeStackScreenProps<RootStackParamList>;
 
@@ -74,7 +78,40 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
     });
   };
 
-  const addPost = async () => {};
+  const addPost = async () => {
+    try {
+      if (!location || !description || !image) {
+        return Snackbar.show({
+          text: "Please add all fields",
+          textColor: "white",
+          backgroundColor: "red",
+        });
+      }
+
+      const uid = shortid.generate();
+
+      const postData: Post = {
+        location,
+        description,
+        picture: image,
+        by: userState?.name || "",
+        date: Date.now(),
+        instaId: userState?.instaUserName || "",
+        userImage: userState?.image || "",
+      };
+      await database().ref(`/posts/${uid}`).set(postData);
+
+      console.log("post added SUCCESS");
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+      Snackbar.show({
+        text: "Post upload failed",
+        textColor: "white",
+        backgroundColor: "red",
+      });
+    }
+  };
 
   return (
     <Container style={styles.container}>
@@ -145,7 +182,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
 };
 
 interface LinkStateProps {
-  userState: FirebaseAuthTypes.User | null;
+  userState: UserDetails | null;
 }
 
 const mapStateToProps = (state: AppState): LinkStateProps => ({
