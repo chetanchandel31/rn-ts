@@ -23,7 +23,14 @@ import database, {
 import { AuthState } from "./types";
 import { AppState } from "./store";
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  AddPost: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 interface AppProps {
   authState: AuthState;
