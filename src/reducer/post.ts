@@ -1,22 +1,13 @@
 import { ERROR_POST, GET_POSTS, PostActionTypes } from "../action/action.types";
-import { Post } from "../types";
+import { PostsState } from "../types";
 
-interface PostsInStore {
-  posts: Post[] | null;
-  loading: boolean;
-  error: boolean;
-}
-
-const initialState: PostsInStore = {
+const initialState: PostsState = {
   posts: null,
   loading: true,
   error: false,
 };
 
-export default (
-  state = initialState,
-  action: PostActionTypes
-): PostsInStore => {
+export default (state = initialState, action: PostActionTypes): PostsState => {
   switch (action.type) {
     case GET_POSTS:
       return {

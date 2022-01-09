@@ -1,8 +1,174 @@
-import React from "react";
-import { Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Image, Linking } from "react-native";
+import {
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Left,
+  Body,
+  Right,
+} from "native-base";
+import database from "@react-native-firebase/database";
+import { AuthState, Post as PostSchema, Votes } from "../types";
 
-const Post = () => {
-  return <Text>hello from Post</Text>;
+interface PostProps {
+  item: PostSchema;
+  userDetails: AuthState;
+}
+
+const Post = ({ item, userDetails }: PostProps) => {
+  const [upvote, setUpvote] = useState(0);
+  const [downvote, setDownvote] = useState(0);
+
+  const upVotePost = () => {
+    database()
+      .ref(`/posts/${item.id}/vote/${userDetails.user?.uid}`)
+      .set({ type: "upvote" })
+      .then(() => console.log("upvoted"));
+  };
+
+  const downVotePost = () => {
+    database()
+      .ref(`/posts/${item.id}/vote/${userDetails.user?.uid}`)
+      .set({ type: "downvote" })
+      .then(() => console.log("downvoted"));
+  };
+
+  useEffect(() => {
+    if (item.vote) {
+      let upVote = 0;
+      let downVote = 0;
+
+      const votes: Votes = item.vote;
+
+      Object.values(votes).forEach(val => {
+        if (val.type === "upvote") {
+          upVote += 1;
+        }
+
+        if (val.type === "downvote") {
+          downVote += 1;
+        }
+      });
+
+      setUpvote(upVote);
+      setDownvote(downVote);
+    }
+  }, [item]);
+
+  return (
+    <Card
+      style={{
+        backgroundColor: "#0f4c75",
+        borderColor: "#0f4c75",
+      }}
+    >
+      <CardItem
+        style={{
+          backgroundColor: "transparent",
+        }}
+      >
+        <Left>
+          <Thumbnail source={{ uri: item.userImage }} small />
+          <Body>
+            <Text
+              style={{
+                color: "#fdcb9e",
+              }}
+            >
+              {item.by}
+            </Text>
+
+            <Text note>{item.location}</Text>
+          </Body>
+        </Left>
+      </CardItem>
+      <CardItem cardBody>
+        <Image
+          source={{ uri: item.picture }}
+          style={{ height: 200, width: undefined, flex: 1 }}
+        />
+      </CardItem>
+      <CardItem
+        cardBody
+        style={{
+          backgroundColor: "transparent",
+          marginHorizontal: 10,
+        }}
+      >
+        <Text
+          numberOfLines={2}
+          style={{
+            color: "#fff",
+          }}
+        >
+          {item.description}
+        </Text>
+      </CardItem>
+
+      <CardItem
+        style={{
+          backgroundColor: "#0f4c75",
+        }}
+      >
+        <Left>
+          <Button transparent onPress={upVotePost}>
+            <Icon
+              name="thumbs-up"
+              type="Entypo"
+              style={{ fontSize: 20, color: "#fdcb9e" }}
+            />
+            <Text
+              style={{
+                color: "#fdcb9e",
+              }}
+            >
+              {upvote}
+            </Text>
+          </Button>
+          <Button transparent onPress={downVotePost}>
+            <Icon
+              name="thumbs-down"
+              type="Entypo"
+              style={{ fontSize: 20, color: "#fdcb9e" }}
+            />
+            <Text
+              style={{
+                color: "#fdcb9e",
+              }}
+            >
+              {downvote}
+            </Text>
+          </Button>
+        </Left>
+        <Right>
+          <Button
+            transparent
+            iconLeft
+            onPress={() => {
+              Linking.openURL(`instagram://user?username=${item.instaId}`);
+            }}
+          >
+            <Text
+              style={{
+                color: "#fdcb9e",
+              }}
+            >
+              Open in
+            </Text>
+            <Icon
+              name="instagram"
+              type="Feather"
+              style={{ fontSize: 20, color: "#fdcb9e" }}
+            />
+          </Button>
+        </Right>
+      </CardItem>
+    </Card>
+  );
 };
 
 export default Post;

@@ -98,6 +98,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
         date: Date.now(),
         instaId: userState?.instaUserName || "",
         userImage: userState?.image || "",
+        id: uid,
       };
       await database().ref(`/posts/${uid}`).set(postData);
 
