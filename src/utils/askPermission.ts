@@ -1,4 +1,4 @@
-import { PermissionsAndroid, ToastAndroid } from "react-native";
+import { PermissionsAndroid, ToastAndroid } from 'react-native';
 
 export const requestPermission = async () => {
   try {
@@ -10,12 +10,12 @@ export const requestPermission = async () => {
     console.log(granted);
 
     if (
-      granted["android.permission.READ_EXTERNAL_STORAGE"] === "denied" ||
-      granted["android.permission.WRITE_EXTERNAL_STORAGE"] === "denied"
+      granted['android.permission.READ_EXTERNAL_STORAGE'] === 'denied' ||
+      granted['android.permission.WRITE_EXTERNAL_STORAGE'] === 'denied'
     ) {
       // if statement changed as per type inference
       ToastAndroid.show(
-        "We cannot proceed without permissions",
+        'We cannot proceed without permissions',
         ToastAndroid.LONG
       );
       requestPermission();

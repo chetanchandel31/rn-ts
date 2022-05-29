@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Image, Linking } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { Image, Linking } from 'react-native';
 import {
   Card,
   CardItem,
@@ -10,9 +10,9 @@ import {
   Left,
   Body,
   Right,
-} from "native-base";
-import database from "@react-native-firebase/database";
-import { AuthState, Post as PostSchema, Votes } from "../types";
+} from 'native-base';
+import database from '@react-native-firebase/database';
+import { AuthState, Post as PostSchema, Votes } from '../types';
 
 interface PostProps {
   item: PostSchema;
@@ -26,15 +26,15 @@ const Post = ({ item, userDetails }: PostProps) => {
   const upVotePost = () => {
     database()
       .ref(`/posts/${item.id}/vote/${userDetails.user?.uid}`)
-      .set({ type: "upvote" })
-      .then(() => console.log("upvoted"));
+      .set({ type: 'upvote' })
+      .then(() => console.log('upvoted'));
   };
 
   const downVotePost = () => {
     database()
       .ref(`/posts/${item.id}/vote/${userDetails.user?.uid}`)
-      .set({ type: "downvote" })
-      .then(() => console.log("downvoted"));
+      .set({ type: 'downvote' })
+      .then(() => console.log('downvoted'));
   };
 
   useEffect(() => {
@@ -45,11 +45,11 @@ const Post = ({ item, userDetails }: PostProps) => {
       const votes: Votes = item.vote;
 
       Object.values(votes).forEach(val => {
-        if (val.type === "upvote") {
+        if (val.type === 'upvote') {
           upVote += 1;
         }
 
-        if (val.type === "downvote") {
+        if (val.type === 'downvote') {
           downVote += 1;
         }
       });
@@ -62,13 +62,13 @@ const Post = ({ item, userDetails }: PostProps) => {
   return (
     <Card
       style={{
-        backgroundColor: "#0f4c75",
-        borderColor: "#0f4c75",
+        backgroundColor: '#0f4c75',
+        borderColor: '#0f4c75',
       }}
     >
       <CardItem
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: 'transparent',
         }}
       >
         <Left>
@@ -76,7 +76,7 @@ const Post = ({ item, userDetails }: PostProps) => {
           <Body>
             <Text
               style={{
-                color: "#fdcb9e",
+                color: '#fdcb9e',
               }}
             >
               {item.by}
@@ -95,14 +95,14 @@ const Post = ({ item, userDetails }: PostProps) => {
       <CardItem
         cardBody
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: 'transparent',
           marginHorizontal: 10,
         }}
       >
         <Text
           numberOfLines={2}
           style={{
-            color: "#fff",
+            color: '#fff',
           }}
         >
           {item.description}
@@ -111,7 +111,7 @@ const Post = ({ item, userDetails }: PostProps) => {
 
       <CardItem
         style={{
-          backgroundColor: "#0f4c75",
+          backgroundColor: '#0f4c75',
         }}
       >
         <Left>
@@ -119,11 +119,11 @@ const Post = ({ item, userDetails }: PostProps) => {
             <Icon
               name="thumbs-up"
               type="Entypo"
-              style={{ fontSize: 20, color: "#fdcb9e" }}
+              style={{ fontSize: 20, color: '#fdcb9e' }}
             />
             <Text
               style={{
-                color: "#fdcb9e",
+                color: '#fdcb9e',
               }}
             >
               {upvote}
@@ -133,11 +133,11 @@ const Post = ({ item, userDetails }: PostProps) => {
             <Icon
               name="thumbs-down"
               type="Entypo"
-              style={{ fontSize: 20, color: "#fdcb9e" }}
+              style={{ fontSize: 20, color: '#fdcb9e' }}
             />
             <Text
               style={{
-                color: "#fdcb9e",
+                color: '#fdcb9e',
               }}
             >
               {downvote}
@@ -154,7 +154,7 @@ const Post = ({ item, userDetails }: PostProps) => {
           >
             <Text
               style={{
-                color: "#fdcb9e",
+                color: '#fdcb9e',
               }}
             >
               Open in
@@ -162,7 +162,7 @@ const Post = ({ item, userDetails }: PostProps) => {
             <Icon
               name="instagram"
               type="Feather"
-              style={{ fontSize: 20, color: "#fdcb9e" }}
+              style={{ fontSize: 20, color: '#fdcb9e' }}
             />
           </Button>
         </Right>

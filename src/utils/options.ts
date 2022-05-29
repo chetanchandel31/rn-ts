@@ -1,7 +1,7 @@
 export const options = {
-  title: "Select Avatar",
+  title: 'Select Avatar',
   storageOptions: {
     skipBackup: true,
-    path: "images",
+    path: 'images',
   },
 };

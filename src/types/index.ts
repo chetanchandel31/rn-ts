@@ -12,7 +12,7 @@ export interface Post {
 }
 
 export interface Votes {
-  [userId: string]: { type: "upvote" | "downvote" };
+  [userId: string]: { type: 'upvote' | 'downvote' };
 }
 
 // schema for user object that we store in db is different from firebase's default user object's schema

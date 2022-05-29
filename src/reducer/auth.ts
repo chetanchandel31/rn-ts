@@ -1,5 +1,5 @@
-import { IS_AUTHENTICATED, SET_USER } from "../action/action.types";
-import { AuthState } from "../types";
+import { IS_AUTHENTICATED, SET_USER } from '../action/action.types';
+import { AuthState } from '../types';
 
 const initialState: AuthState = {
   user: null,

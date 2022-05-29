@@ -1,11 +1,11 @@
-import { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import React from "react";
-import { Body, Button, Header, Icon, Right, Text, Title } from "native-base";
+import { NativeStackHeaderProps } from '@react-navigation/native-stack';
+import React from 'react';
+import { Body, Button, Header, Icon, Right, Text, Title } from 'native-base';
 
-import { connect } from "react-redux";
-import { signout } from "../action/auth";
-import { AppState } from "../store";
-import { AuthState } from "../types";
+import { connect } from 'react-redux';
+import { signout } from '../action/auth';
+import { AppState } from '../store';
+import { AuthState } from '../types';
 
 interface CustomHeaderOwnProps {
   dummyProp?: string; // own props: not coming from redux, navigation etc.
@@ -22,7 +22,7 @@ const CustomHeader = (props: CustomHeaderProps) => {
   return (
     <Header
       androidStatusBarColor="#0f4c75"
-      style={{ backgroundColor: "#0f4c75" }}
+      style={{ backgroundColor: '#0f4c75' }}
     >
       <Body>
         <Title>Social Media</Title>
@@ -34,13 +34,13 @@ const CustomHeader = (props: CustomHeaderProps) => {
             <Button
               transparent
               iconLeft
-              onPress={() => navigation.navigate("AddPost")}
+              onPress={() => navigation.navigate('AddPost')}
             >
-              <Text style={{ color: "#fdcb9e" }}>Add Post</Text>
+              <Text style={{ color: '#fdcb9e' }}>Add Post</Text>
             </Button>
 
             <Button transparent onPress={() => signout()}>
-              <Icon name="log-out-outline" style={{ color: "red" }} />
+              <Icon name="log-out-outline" style={{ color: 'red' }} />
             </Button>
           </>
         )}
@@ -59,7 +59,7 @@ interface LinkDispatchProps {
 
 const mapStateToProps = (
   state: AppState,
-  ownProps: CustomHeaderOwnProps
+  _ownProps: CustomHeaderOwnProps
 ): LinkStateProps => ({
   authState: state.auth,
 });

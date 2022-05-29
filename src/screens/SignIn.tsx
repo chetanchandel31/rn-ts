@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import { StyleSheet, ScrollView, Image, TouchableOpacity } from "react-native";
-import { Text, Container, H3, Form, Item, Input, Button } from "native-base";
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { Text, Container, H3, Form, Item, Input, Button } from 'native-base';
 
-import Welcome from "../assets/welcome.png";
+import Welcome from '../assets/welcome.png';
 
-import { connect } from "react-redux";
-import { signIn } from "../action/auth";
+import { connect } from 'react-redux';
+import { signIn } from '../action/auth';
 
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../App";
-import { SigninDetails } from "../types";
-import Snackbar from "react-native-snackbar";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
+import { SigninDetails } from '../types';
+import Snackbar from 'react-native-snackbar';
 
 type SignInProps = NativeStackScreenProps<RootStackParamList> &
   LinkDispatchProps;
 
 const SignIn = ({ navigation, signIn }: SignInProps) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const doSignIn = ({
     email,
@@ -26,12 +26,13 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
     email: string;
     password: string;
   }) => {
-    if (!email || !password)
+    if (!email || !password) {
       return Snackbar.show({
-        text: "Please add all fields",
-        textColor: "white",
-        backgroundColor: "red",
+        text: 'Please add all fields',
+        textColor: 'white',
+        backgroundColor: 'red',
       });
+    }
 
     signIn({ email, password });
   };
@@ -56,8 +57,8 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
             <Input
               placeholder="enter your registerd email"
               value={email}
-              style={{ color: "#eee" }}
-              onChangeText={(text) => setEmail(text)}
+              style={{ color: '#eee' }}
+              onChangeText={text => setEmail(text)}
             />
           </Item>
           <Item rounded style={styles.formItem}>
@@ -65,18 +66,18 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
               placeholder="enter your registerd password"
               value={password}
               secureTextEntry={true}
-              style={{ color: "#eee" }}
-              onChangeText={(text) => setPassword(text)}
+              style={{ color: '#eee' }}
+              onChangeText={text => setPassword(text)}
             />
           </Item>
           <Button rounded block onPress={() => doSignIn({ email, password })}>
             <Text>Sign In</Text>
           </Button>
           <TouchableOpacity
-            onPress={() => navigation.navigate("SignUp")}
+            onPress={() => navigation.navigate('SignUp')}
             style={{ marginTop: 10 }}
           >
-            <Text style={{ color: "#fff", textAlign: "center" }}>
+            <Text style={{ color: '#fff', textAlign: 'center' }}>
               Do not have an account, SignUp here
             </Text>
           </TouchableOpacity>
@@ -98,13 +99,13 @@ export default connect(null, mapDispatchToProps)(SignIn);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#1b262c",
+    backgroundColor: '#1b262c',
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
   },
   heading: {
-    textAlign: "center",
-    color: "#fdcb9e",
+    textAlign: 'center',
+    color: '#fdcb9e',
     marginHorizontal: 5,
     marginTop: 30,
   },

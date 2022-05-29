@@ -1,11 +1,11 @@
-import { Post } from "../types";
+import { Post } from '../types';
 
-export const IS_AUTHENTICATED = "IS_AUTHENTICATED";
-export const SET_USER = "SET_USER";
+export const IS_AUTHENTICATED = 'IS_AUTHENTICATED';
+export const SET_USER = 'SET_USER';
 
-export const GET_POSTS = "GET_POSTS"; // c: it was "SET_POST"
-export const ERROR_POST = "ERROR_POST";
-export const DELETE_POST = "DELETE_POST"; // c
+export const GET_POSTS = 'GET_POSTS'; // c: it was "SET_POST"
+export const ERROR_POST = 'ERROR_POST';
+export const DELETE_POST = 'DELETE_POST'; // c
 
 // post actions (add, delete, edit etc)
 export interface GetPostsAction {

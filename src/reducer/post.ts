@@ -1,5 +1,5 @@
-import { ERROR_POST, GET_POSTS, PostActionTypes } from "../action/action.types";
-import { PostsState } from "../types";
+import { ERROR_POST, GET_POSTS, PostActionTypes } from '../action/action.types';
+import { PostsState } from '../types';
 
 const initialState: PostsState = {
   posts: null,

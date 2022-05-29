@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, ScrollView, Image } from "react-native";
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView, Image } from 'react-native';
 import {
   Container,
   Content,
@@ -10,45 +10,45 @@ import {
   Button,
   Textarea,
   Icon,
-} from "native-base";
+} from 'native-base';
 
-import { Bar } from "react-native-progress";
-import shortid from "shortid";
+import { Bar } from 'react-native-progress';
+import shortid from 'shortid';
 
-import storage from "@react-native-firebase/storage";
-import database from "@react-native-firebase/database";
+import storage from '@react-native-firebase/storage';
+import database from '@react-native-firebase/database';
 
-import ImagePicker, { ImagePickerResponse } from "react-native-image-picker";
-import { options } from "../utils/options";
+import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
+import { options } from '../utils/options';
 
-import { AppState } from "../store";
-import { connect } from "react-redux";
+import { AppState } from '../store';
+import { connect } from 'react-redux';
 
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../App";
-import Snackbar from "react-native-snackbar";
-import { Post, UserDetails } from "../types";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
+import Snackbar from 'react-native-snackbar';
+import { Post, UserDetails } from '../types';
 
 type AddPostProps = LinkStateProps & NativeStackScreenProps<RootStackParamList>;
 
 const AddPost = ({ navigation, userState }: AddPostProps) => {
-  const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState('');
 
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<boolean | number>(false);
 
   const chooseImage = async () => {
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log("Response = ", response);
+    ImagePicker.showImagePicker(options, response => {
+      console.log('Response = ', response);
 
       if (response.didCancel) {
-        console.log("User cancelled image picker");
+        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
+        console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
+        console.log('User tapped custom button: ', response.customButton);
       } else {
         console.log(response);
         uploadImage(response);
@@ -60,10 +60,12 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
     setImageUploading(true);
     const reference = storage().ref(`${response.fileName}-${Date.now()}`);
 
-    if (!response.path) return console.log("😭");
+    if (!response.path) {
+      return console.log('😭');
+    }
 
     const task = reference.putFile(response.path); // apparently .path is the image file itself?
-    task.on("state_changed", (taskSnapshot) => {
+    task.on('state_changed', taskSnapshot => {
       const percentage =
         (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 1000;
 
@@ -82,9 +84,9 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
     try {
       if (!location || !description || !image) {
         return Snackbar.show({
-          text: "Please add all fields",
-          textColor: "white",
-          backgroundColor: "red",
+          text: 'Please add all fields',
+          textColor: 'white',
+          backgroundColor: 'red',
         });
       }
 
@@ -94,22 +96,22 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
         location,
         description,
         picture: image,
-        by: userState?.name || "",
+        by: userState?.name || '',
         date: Date.now(),
-        instaId: userState?.instaUserName || "",
-        userImage: userState?.image || "",
+        instaId: userState?.instaUserName || '',
+        userImage: userState?.image || '',
         id: uid,
       };
       await database().ref(`/posts/${uid}`).set(postData);
 
-      console.log("post added SUCCESS");
-      navigation.navigate("Home");
+      console.log('post added SUCCESS');
+      navigation.navigate('Home');
     } catch (error) {
       console.log(error);
       Snackbar.show({
-        text: "Post upload failed",
-        textColor: "white",
-        backgroundColor: "red",
+        text: 'Post upload failed',
+        textColor: 'white',
+        backgroundColor: 'red',
       });
     }
   };
@@ -130,12 +132,12 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
               <Input
                 placeholder="location"
                 value={location}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setLocation(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setLocation(text)}
               />
             </Item>
 
-            {imageUploading && typeof uploadStatus === "number" ? (
+            {imageUploading && typeof uploadStatus === 'number' ? (
               <Bar progress={uploadStatus} style={styles.progress} />
             ) : (
               <Button
@@ -154,7 +156,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
                 />
                 <Text
                   style={{
-                    color: "#fdcb9e",
+                    color: '#fdcb9e',
                   }}
                 >
                   Choose Image
@@ -167,8 +169,8 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
                 rowSpan={5}
                 placeholder="Some description..."
                 value={description}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setDescription(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setDescription(text)}
               />
             </Item>
 
@@ -194,14 +196,14 @@ export default connect(mapStateToProps)(AddPost);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#1b262c",
+    backgroundColor: '#1b262c',
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
   },
   formItem: {
     marginBottom: 20,
   },
-  icon: { fontSize: 20, color: "#fdcb9e" },
+  icon: { fontSize: 20, color: '#fdcb9e' },
   image: { width: undefined, height: 150, marginVertical: 15 },
   progress: { width: undefined, marginBottom: 20 },
 });

@@ -5,6 +5,5 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'no-shadow': 'off',
-    '@typescript-eslint/no-shadow': ['error'],
   },
 };

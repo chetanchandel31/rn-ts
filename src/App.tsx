@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
-import CustomHeader from "./layout/CustomHeader";
-import EmptyContainer from "./components/EmptyContainer";
-import { requestPermission } from "./utils/askPermission";
+import React, { useEffect } from 'react';
+import CustomHeader from './layout/CustomHeader';
+import EmptyContainer from './components/EmptyContainer';
+import { requestPermission } from './utils/askPermission';
 // react navigation
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // screens
-import AddPost from "./screens/AddPost";
-import Home from "./screens/Home";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
+import AddPost from './screens/AddPost';
+import Home from './screens/Home';
+import SignIn from './screens/SignIn';
+import SignUp from './screens/SignUp';
 // redux
-import { connect } from "react-redux";
-import { SET_USER, IS_AUTHENTICATED } from "./action/action.types";
-import { useAppDispatch } from "./hooks/useAppDispatch";
+import { connect } from 'react-redux';
+import { SET_USER, IS_AUTHENTICATED } from './action/action.types';
+import { useAppDispatch } from './hooks/useAppDispatch';
 // firebase
-import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import database, {
   FirebaseDatabaseTypes,
-} from "@react-native-firebase/database";
-import { AuthState } from "./types";
-import { AppState } from "./store";
+} from '@react-native-firebase/database';
+import { AuthState } from './types';
+import { AppState } from './store';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -42,12 +42,12 @@ const App = ({ authState }: AppProps) => {
     if (user) {
       dispatch({ type: IS_AUTHENTICATED, payload: true });
 
-      console.log(user.uid, "UID");
+      console.log(user.uid, 'UID');
 
       database()
         .ref(`/users/${user.uid}`)
-        .on("value", (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-          console.log("USER DETAILS", snapshot.val());
+        .on('value', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
+          console.log('USER DETAILS', snapshot.val());
           dispatch({
             type: SET_USER,
             payload: snapshot.val(),
@@ -64,16 +64,19 @@ const App = ({ authState }: AppProps) => {
     const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
 
     return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (authState?.loading) return <EmptyContainer />;
+  if (authState?.loading) {
+    return <EmptyContainer />;
+  }
 
   return (
     <>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
-            header: (props) => {
+            header: props => {
               return <CustomHeader {...props} />;
             },
           }}

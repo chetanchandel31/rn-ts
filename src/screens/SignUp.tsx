@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import storage from "@react-native-firebase/storage";
-import { Bar } from "react-native-progress";
+import storage from '@react-native-firebase/storage';
+import { Bar } from 'react-native-progress';
 
-import ImagePicker, { ImagePickerResponse } from "react-native-image-picker";
-import { options } from "../utils/options";
+import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
+import { options } from '../utils/options';
 
 // redux
-import { signUp } from "../action/auth";
-import { connect } from "react-redux";
-import { SignupDetails } from "../types";
+import { signUp } from '../action/auth';
+import { connect } from 'react-redux';
+import { SignupDetails } from '../types';
 import {
   Button,
   Container,
@@ -20,34 +20,34 @@ import {
   Item,
   Thumbnail,
   View,
-} from "native-base";
+} from 'native-base';
 
 type SignUpProps = LinkDispatchProps;
 
 const SignUp = ({ signUp }: SignUpProps) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [instaUserName, setInstaUserName] = useState("");
-  const [country, setCountry] = useState("");
-  const [bio, setBio] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [instaUserName, setInstaUserName] = useState('');
+  const [country, setCountry] = useState('');
+  const [bio, setBio] = useState('');
   const [image, setImage] = useState(
-    "https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png"
+    'https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png'
   );
 
   const [imageUploading, setImageUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<boolean | number>(false);
 
   const chooseImage = async () => {
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log("Response = ", response);
+    ImagePicker.showImagePicker(options, response => {
+      console.log('Response = ', response);
 
       if (response.didCancel) {
-        console.log("User cancelled image picker");
+        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
+        console.log('ImagePicker Error: ', response.error);
       } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
+        console.log('User tapped custom button: ', response.customButton);
       } else {
         console.log(response);
         uploadImage(response);
@@ -59,10 +59,12 @@ const SignUp = ({ signUp }: SignUpProps) => {
     setImageUploading(true);
     const reference = storage().ref(`${response.fileName}-${Date.now()}`);
 
-    if (!response.path) return console.log("😭");
+    if (!response.path) {
+      return console.log('😭');
+    }
 
     const task = reference.putFile(response.path); // apparently .path is the image file itself?
-    task.on("state_changed", (taskSnapshot) => {
+    task.on('state_changed', taskSnapshot => {
       const percentage =
         (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 1000;
 
@@ -91,7 +93,7 @@ const SignUp = ({ signUp }: SignUpProps) => {
             </TouchableOpacity>
           </View>
 
-          {imageUploading && typeof uploadStatus === "number" && (
+          {imageUploading && typeof uploadStatus === 'number' && (
             <Bar progress={uploadStatus} style={styles.progress} />
           )}
 
@@ -100,16 +102,16 @@ const SignUp = ({ signUp }: SignUpProps) => {
               <Input
                 placeholder="name"
                 value={name}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setName(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setName(text)}
               />
             </Item>
             <Item regular style={styles.formItem}>
               <Input
                 placeholder="email"
                 value={email}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setEmail(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setEmail(text)}
               />
             </Item>
             <Item regular style={styles.formItem}>
@@ -117,32 +119,32 @@ const SignUp = ({ signUp }: SignUpProps) => {
                 placeholder="password"
                 value={password}
                 secureTextEntry={true}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setPassword(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setPassword(text)}
               />
             </Item>
             <Item regular style={styles.formItem}>
               <Input
                 placeholder="Instagram user name"
                 value={instaUserName}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setInstaUserName(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setInstaUserName(text)}
               />
             </Item>
             <Item regular style={styles.formItem}>
               <Input
                 placeholder="Your Short Bio"
                 value={bio}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setBio(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setBio(text)}
               />
             </Item>
             <Item regular style={styles.formItem}>
               <Input
                 placeholder="country"
                 value={country}
-                style={{ color: "#eee" }}
-                onChangeText={(text) => setCountry(text)}
+                style={{ color: '#eee' }}
+                onChangeText={text => setCountry(text)}
               />
             </Item>
             <Button
@@ -164,19 +166,19 @@ interface LinkDispatchProps {
 }
 
 const mapDispatchToProps: LinkDispatchProps = {
-  signUp: (data) => signUp(data),
+  signUp: data => signUp(data),
 };
 
 export default connect(null, mapDispatchToProps)(SignUp);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#1b262c",
+    backgroundColor: '#1b262c',
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: 'flex-start',
   },
   imageContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     marginVertical: 5,
   },
   progress: {
