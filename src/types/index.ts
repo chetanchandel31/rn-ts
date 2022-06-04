@@ -6,7 +6,7 @@ export interface Post {
   date: number;
   instaId: string;
   userImage: string;
-  id: string;
+  _id: string;
   // vote?: { upvote: boolean } | { downvote: boolean };
   vote?: Votes;
 }

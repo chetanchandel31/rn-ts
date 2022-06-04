@@ -100,7 +100,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
         date: Date.now(),
         instaId: userState?.instaUserName || '',
         userImage: userState?.image || '',
-        id: uid,
+        _id: uid,
       };
       await database().ref(`/posts/${uid}`).set(postData);
 
@@ -119,7 +119,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
   return (
     <Container style={styles.container}>
       <Content padder>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           {image ? (
             <Image
               source={{ uri: image }}
@@ -132,7 +132,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
               <Input
                 placeholder="location"
                 value={location}
-                style={{ color: '#eee' }}
+                style={styles.textArea}
                 onChangeText={text => setLocation(text)}
               />
             </Item>
@@ -154,13 +154,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
                   type="Ionicons"
                   style={styles.icon}
                 />
-                <Text
-                  style={{
-                    color: '#fdcb9e',
-                  }}
-                >
-                  Choose Image
-                </Text>
+                <Text style={styles.chooseImgBtn}>Choose Image</Text>
               </Button>
             )}
 
@@ -169,7 +163,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
                 rowSpan={5}
                 placeholder="Some description..."
                 value={description}
-                style={{ color: '#eee' }}
+                style={styles.textArea}
                 onChangeText={text => setDescription(text)}
               />
             </Item>
@@ -200,10 +194,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
   },
-  formItem: {
-    marginBottom: 20,
-  },
+  formItem: { marginBottom: 20 },
   icon: { fontSize: 20, color: '#fdcb9e' },
   image: { width: undefined, height: 150, marginVertical: 15 },
   progress: { width: undefined, marginBottom: 20 },
+  textArea: { color: '#eee' },
+  scrollView: { flexGrow: 1 },
+  chooseImgBtn: { color: '#fdcb9e' },
 });

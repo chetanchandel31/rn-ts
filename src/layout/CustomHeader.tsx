@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { signout } from '../action/auth';
 import { AppState } from '../store';
 import { AuthState } from '../types';
+import { StyleSheet } from 'react-native';
 
 interface CustomHeaderOwnProps {
   dummyProp?: string; // own props: not coming from redux, navigation etc.
@@ -20,10 +21,7 @@ const CustomHeader = (props: CustomHeaderProps) => {
   const { navigation, signout, authState } = props;
 
   return (
-    <Header
-      androidStatusBarColor="#0f4c75"
-      style={{ backgroundColor: '#0f4c75' }}
-    >
+    <Header androidStatusBarColor="#0f4c75" style={styles.header}>
       <Body>
         <Title>Social Media</Title>
       </Body>
@@ -36,11 +34,11 @@ const CustomHeader = (props: CustomHeaderProps) => {
               iconLeft
               onPress={() => navigation.navigate('AddPost')}
             >
-              <Text style={{ color: '#fdcb9e' }}>Add Post</Text>
+              <Text style={styles.addPostText}>Add Post</Text>
             </Button>
 
             <Button transparent onPress={() => signout()}>
-              <Icon name="log-out-outline" style={{ color: 'red' }} />
+              <Icon name="log-out-outline" style={styles.signoutIcon} />
             </Button>
           </>
         )}
@@ -48,6 +46,12 @@ const CustomHeader = (props: CustomHeaderProps) => {
     </Header>
   );
 };
+
+const styles = StyleSheet.create({
+  header: { backgroundColor: '#0f4c75' },
+  addPostText: { color: '#fdcb9e' },
+  signoutIcon: { color: 'red' },
+});
 
 interface LinkStateProps {
   authState: AuthState;

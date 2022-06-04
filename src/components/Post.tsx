@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, Linking } from 'react-native';
+import { Image, Linking, StyleSheet } from 'react-native';
 import {
   Card,
   CardItem,
@@ -25,14 +25,14 @@ const Post = ({ item, userDetails }: PostProps) => {
 
   const upVotePost = () => {
     database()
-      .ref(`/posts/${item.id}/vote/${userDetails.user?.uid}`)
+      .ref(`/posts/${item._id}/vote/${userDetails.user?.uid}`)
       .set({ type: 'upvote' })
       .then(() => console.log('upvoted'));
   };
 
   const downVotePost = () => {
     database()
-      .ref(`/posts/${item.id}/vote/${userDetails.user?.uid}`)
+      .ref(`/posts/${item._id}/vote/${userDetails.user?.uid}`)
       .set({ type: 'downvote' })
       .then(() => console.log('downvoted'));
   };
@@ -60,88 +60,39 @@ const Post = ({ item, userDetails }: PostProps) => {
   }, [item]);
 
   return (
-    <Card
-      style={{
-        backgroundColor: '#0f4c75',
-        borderColor: '#0f4c75',
-      }}
-    >
-      <CardItem
-        style={{
-          backgroundColor: 'transparent',
-        }}
-      >
+    <Card style={styles.cardContainer}>
+      <CardItem style={styles.cardHeader}>
         <Left>
           <Thumbnail source={{ uri: item.userImage }} small />
           <Body>
-            <Text
-              style={{
-                color: '#fdcb9e',
-              }}
-            >
-              {item.by}
-            </Text>
+            <Text style={styles.userName}>{item.by}</Text>
 
             <Text note>{item.location}</Text>
           </Body>
         </Left>
       </CardItem>
       <CardItem cardBody>
-        <Image
-          source={{ uri: item.picture }}
-          style={{ height: 200, width: undefined, flex: 1 }}
-        />
+        <Image source={{ uri: item.picture }} style={styles.image} />
       </CardItem>
-      <CardItem
-        cardBody
-        style={{
-          backgroundColor: 'transparent',
-          marginHorizontal: 10,
-        }}
-      >
-        <Text
-          numberOfLines={2}
-          style={{
-            color: '#fff',
-          }}
-        >
+      <CardItem cardBody style={styles.cardDescription}>
+        <Text numberOfLines={2} style={styles.description}>
           {item.description}
         </Text>
       </CardItem>
 
-      <CardItem
-        style={{
-          backgroundColor: '#0f4c75',
-        }}
-      >
+      <CardItem style={styles.cardFooter}>
         <Left>
           <Button transparent onPress={upVotePost}>
-            <Icon
-              name="thumbs-up"
-              type="Entypo"
-              style={{ fontSize: 20, color: '#fdcb9e' }}
-            />
-            <Text
-              style={{
-                color: '#fdcb9e',
-              }}
-            >
-              {upvote}
-            </Text>
+            <Icon name="thumbs-up" type="Entypo" style={styles.upvoteIcon} />
+            <Text style={styles.upvoteText}>{upvote}</Text>
           </Button>
           <Button transparent onPress={downVotePost}>
             <Icon
               name="thumbs-down"
               type="Entypo"
-              style={{ fontSize: 20, color: '#fdcb9e' }}
+              style={styles.downvoteIcon}
             />
-            <Text
-              style={{
-                color: '#fdcb9e',
-              }}
-            >
-              {downvote}
-            </Text>
+            <Text style={styles.downvoteText}>{downvote}</Text>
           </Button>
         </Left>
         <Right>
@@ -152,17 +103,11 @@ const Post = ({ item, userDetails }: PostProps) => {
               Linking.openURL(`instagram://user?username=${item.instaId}`);
             }}
           >
-            <Text
-              style={{
-                color: '#fdcb9e',
-              }}
-            >
-              Open in
-            </Text>
+            <Text style={styles.openIn}>Open in</Text>
             <Icon
               name="instagram"
               type="Feather"
-              style={{ fontSize: 20, color: '#fdcb9e' }}
+              style={styles.instagramIcon}
             />
           </Button>
         </Right>
@@ -170,5 +115,21 @@ const Post = ({ item, userDetails }: PostProps) => {
     </Card>
   );
 };
+
+const styles = StyleSheet.create({
+  cardContainer: { backgroundColor: '#0f4c75', borderColor: '#0f4c75' },
+  cardHeader: { backgroundColor: 'transparent' },
+  userName: { color: '#fdcb9e' },
+  image: { height: 200, width: undefined, flex: 1 },
+  cardDescription: { backgroundColor: 'transparent', marginHorizontal: 10 },
+  description: { color: '#fff' },
+  cardFooter: { backgroundColor: '#0f4c75' },
+  upvoteIcon: { fontSize: 20, color: '#fdcb9e' },
+  upvoteText: { color: '#fdcb9e' },
+  downvoteIcon: { fontSize: 20, color: '#fdcb9e' },
+  downvoteText: { color: '#fdcb9e' },
+  openIn: { color: '#fdcb9e' },
+  instagramIcon: { fontSize: 20, color: '#fdcb9e' },
+});
 
 export default Post;

@@ -29,7 +29,7 @@ const Home = (props: HomeProps) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={postsState.posts}
-        keyExtractor={item => String(item.id)}
+        keyExtractor={item => String(item._id)}
         renderItem={({ item }) => (
           <Post item={item} userDetails={userDetails} />
         )}
