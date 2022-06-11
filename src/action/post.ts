@@ -1,25 +1,15 @@
-import database, {
-  FirebaseDatabaseTypes,
-} from '@react-native-firebase/database';
 import { Dispatch } from 'redux';
+import { API } from '../api';
 import { AppState } from '../store';
-import { AppActions, ERROR_POST, GET_POSTS } from './action.types';
+import { Post } from '../types';
+import { AppActions, ERROR_POST } from './action.types';
 
 export const getPosts = () => {
   return async (dispatch: Dispatch<AppActions>, _getState: () => AppState) => {
     try {
-      database()
-        .ref('/posts/')
-        .on('value', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-          if (snapshot.val()) {
-            dispatch({
-              type: GET_POSTS,
-              payload: Object.values(snapshot.val()),
-            });
-          } else {
-            dispatch({ type: GET_POSTS, payload: [] });
-          }
-        });
+      const { data }: { data: Post[] } = await API.get('/posts');
+
+      dispatch({ type: 'GET_POSTS', payload: data });
     } catch (err) {
       dispatch({ type: ERROR_POST });
     }

@@ -35,7 +35,7 @@ const Home = (props: HomeProps) => {
         )}
         ListEmptyComponent={() => (
           <Container style={styles.emptyContainer}>
-            <H1>No post found</H1>
+            <H1 style={styles.text}>No post found</H1>
           </Container>
         )}
       />
@@ -76,4 +76,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  text: { color: '#eee' },
 });

@@ -21,7 +21,6 @@ import database, {
 } from '@react-native-firebase/database';
 import { AuthState } from './types';
 import { AppState } from './store';
-import { API_BASE_URL } from '@env';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -63,7 +62,6 @@ const App = ({ authState }: AppProps) => {
   useEffect(() => {
     requestPermission();
     const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
-    console.log(API_BASE_URL, 'API_BASE_URL ');
 
     return () => unsubscribe();
     // eslint-disable-next-line react-hooks/exhaustive-deps
