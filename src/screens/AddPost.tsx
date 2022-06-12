@@ -27,7 +27,7 @@ import { connect } from 'react-redux';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import Snackbar from 'react-native-snackbar';
-import { Post, UserDetails } from '../types';
+import { Post, User } from '../types';
 
 type AddPostProps = LinkStateProps & NativeStackScreenProps<RootStackParamList>;
 
@@ -99,7 +99,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
         by: userState?.name || '',
         date: Date.now(),
         instaId: userState?.instaUserName || '',
-        userImage: userState?.image || '',
+        userImage: `api-base-url/${userState?._id}` || '',
         _id: uid,
       };
       await database().ref(`/posts/${uid}`).set(postData);
@@ -179,7 +179,7 @@ const AddPost = ({ navigation, userState }: AddPostProps) => {
 };
 
 interface LinkStateProps {
-  userState: UserDetails | null;
+  userState: User | null;
 }
 
 const mapStateToProps = (state: AppState): LinkStateProps => ({

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
 import { Container, H1 } from 'native-base';
+import React, { useEffect } from 'react';
+import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 
 // redux
 import { connect } from 'react-redux';

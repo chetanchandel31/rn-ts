@@ -1,6 +1,7 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect } from 'react';
-import CustomHeader from './layout/CustomHeader';
 import EmptyContainer from './components/EmptyContainer';
+import CustomHeader from './layout/CustomHeader';
 import { requestPermission } from './utils/askPermission';
 // react navigation
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,15 +13,11 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 // redux
 import { connect } from 'react-redux';
-import { SET_USER, IS_AUTHENTICATED } from './action/action.types';
-import { useAppDispatch } from './hooks/useAppDispatch';
 // firebase
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import database, {
-  FirebaseDatabaseTypes,
-} from '@react-native-firebase/database';
-import { AuthState } from './types';
+import { SIGN_IN, SIGN_OUT } from './action/action.types';
+import { useAppDispatch } from './hooks/useAppDispatch';
 import { AppState } from './store';
+import { AuthState, User } from './types';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -37,35 +34,28 @@ interface AppProps {
 
 const App = ({ authState }: AppProps) => {
   const dispatch = useAppDispatch();
-
-  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null) => {
-    if (user) {
-      dispatch({ type: IS_AUTHENTICATED, payload: true });
-
-      console.log(user.uid, 'UID');
-
-      database()
-        .ref(`/users/${user.uid}`)
-        .on('value', (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-          console.log('USER DETAILS', snapshot.val());
-          dispatch({
-            type: SET_USER,
-            payload: snapshot.val(),
-          });
-        });
-    } else {
-      dispatch({ type: IS_AUTHENTICATED, payload: false });
-      // TODO: am action to remove user?
-    }
-  };
+  // const reduxState = useSelector(state => state);
+  // console.log(reduxState, 'redux state');
 
   useEffect(() => {
-    requestPermission();
-    const unsubscribe = auth().onAuthStateChanged(onAuthStateChanged);
+    const setUserFromAsyncStorage = async () => {
+      try {
+        const storedValue = await AsyncStorage.getItem('@USER');
+        const user = typeof storedValue === 'string' && JSON.parse(storedValue);
 
-    return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        if (user) {
+          dispatch({ type: SIGN_IN, payload: user.user as User });
+        } else {
+          dispatch({ type: SIGN_OUT });
+        }
+      } catch (error) {
+        console.log("couldn't read from async storage");
+      }
+    };
+
+    requestPermission();
+    setUserFromAsyncStorage();
+  }, [dispatch]);
 
   if (authState?.loading) {
     return <EmptyContainer />;

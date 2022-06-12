@@ -8,9 +8,10 @@ import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import { options } from '../utils/options';
 
 // redux
-import { signUp } from '../action/auth';
-import { connect } from 'react-redux';
-import { SignupDetails } from '../types';
+import {
+  NativeStackNavigationProp,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack';
 import {
   Button,
   Container,
@@ -21,10 +22,15 @@ import {
   Thumbnail,
   View,
 } from 'native-base';
+import { connect } from 'react-redux';
+import { signUp } from '../action/auth';
+import { RootStackParamList } from '../App';
+import { SignupPayload } from '../types';
 
-type SignUpProps = LinkDispatchProps;
+type SignUpProps = LinkDispatchProps &
+  NativeStackScreenProps<RootStackParamList>;
 
-const SignUp = ({ signUp }: SignUpProps) => {
+const SignUp = ({ navigation, signUp }: SignUpProps) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -79,14 +85,17 @@ const SignUp = ({ signUp }: SignUpProps) => {
     });
   };
 
-  const doSignUp = async () => {
-    signUp({ name, instaUserName, bio, country, email, password, image });
+  const doSignUp = () => {
+    signUp(
+      { name, instaUserName, bio, country, email, password, image },
+      navigation
+    );
   };
 
   return (
     <Container style={styles.container}>
       <Content padder>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.imageContainer}>
             <TouchableOpacity onPress={chooseImage}>
               <Thumbnail large source={{ uri: image }} />
@@ -102,7 +111,7 @@ const SignUp = ({ signUp }: SignUpProps) => {
               <Input
                 placeholder="name"
                 value={name}
-                style={{ color: '#eee' }}
+                style={styles.input}
                 onChangeText={text => setName(text)}
               />
             </Item>
@@ -110,7 +119,7 @@ const SignUp = ({ signUp }: SignUpProps) => {
               <Input
                 placeholder="email"
                 value={email}
-                style={{ color: '#eee' }}
+                style={styles.input}
                 onChangeText={text => setEmail(text)}
               />
             </Item>
@@ -119,7 +128,7 @@ const SignUp = ({ signUp }: SignUpProps) => {
                 placeholder="password"
                 value={password}
                 secureTextEntry={true}
-                style={{ color: '#eee' }}
+                style={styles.input}
                 onChangeText={text => setPassword(text)}
               />
             </Item>
@@ -127,7 +136,7 @@ const SignUp = ({ signUp }: SignUpProps) => {
               <Input
                 placeholder="Instagram user name"
                 value={instaUserName}
-                style={{ color: '#eee' }}
+                style={styles.input}
                 onChangeText={text => setInstaUserName(text)}
               />
             </Item>
@@ -135,7 +144,7 @@ const SignUp = ({ signUp }: SignUpProps) => {
               <Input
                 placeholder="Your Short Bio"
                 value={bio}
-                style={{ color: '#eee' }}
+                style={styles.input}
                 onChangeText={text => setBio(text)}
               />
             </Item>
@@ -143,7 +152,7 @@ const SignUp = ({ signUp }: SignUpProps) => {
               <Input
                 placeholder="country"
                 value={country}
-                style={{ color: '#eee' }}
+                style={styles.input}
                 onChangeText={text => setCountry(text)}
               />
             </Item>
@@ -162,11 +171,14 @@ const SignUp = ({ signUp }: SignUpProps) => {
 };
 
 interface LinkDispatchProps {
-  signUp: (data: SignupDetails) => void;
+  signUp: (
+    data: SignupPayload,
+    navigation: NativeStackNavigationProp<RootStackParamList>
+  ) => void;
 }
 
 const mapDispatchToProps: LinkDispatchProps = {
-  signUp: data => signUp(data),
+  signUp: (data, navigation) => signUp(data, navigation),
 };
 
 export default connect(null, mapDispatchToProps)(SignUp);
@@ -187,5 +199,11 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 20,
+  },
+  scrollView: {
+    flexGrow: 1,
+  },
+  input: {
+    color: '#eee',
   },
 });

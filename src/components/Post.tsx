@@ -25,14 +25,14 @@ const Post = ({ item, userDetails }: PostProps) => {
 
   const upVotePost = () => {
     database()
-      .ref(`/posts/${item._id}/vote/${userDetails.user?.uid}`)
+      .ref(`/posts/${item._id}/vote/${userDetails.user?._id}`)
       .set({ type: 'upvote' })
       .then(() => console.log('upvoted'));
   };
 
   const downVotePost = () => {
     database()
-      .ref(`/posts/${item._id}/vote/${userDetails.user?.uid}`)
+      .ref(`/posts/${item._id}/vote/${userDetails.user?._id}`)
       .set({ type: 'downvote' })
       .then(() => console.log('downvoted'));
   };

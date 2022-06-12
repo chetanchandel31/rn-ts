@@ -9,7 +9,7 @@ import { signIn } from '../action/auth';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
-import { SigninDetails } from '../types';
+import { SigninPayload } from '../types';
 import Snackbar from 'react-native-snackbar';
 
 type SignInProps = NativeStackScreenProps<RootStackParamList> &
@@ -39,25 +39,17 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
 
   return (
     <Container style={styles.container}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView contentContainerStyle={styles.scrollView}>
         <H3 style={styles.heading}>Welcome to the Social App</H3>
 
-        <Image
-          source={Welcome}
-          style={{
-            width: undefined,
-            height: 150,
-            marginTop: 30,
-          }}
-          resizeMode="contain"
-        />
+        <Image source={Welcome} style={styles.image} resizeMode="contain" />
 
         <Form>
           <Item rounded style={styles.formItem}>
             <Input
               placeholder="enter your registerd email"
               value={email}
-              style={{ color: '#eee' }}
+              style={styles.input}
               onChangeText={text => setEmail(text)}
             />
           </Item>
@@ -66,7 +58,7 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
               placeholder="enter your registerd password"
               value={password}
               secureTextEntry={true}
-              style={{ color: '#eee' }}
+              style={styles.input}
               onChangeText={text => setPassword(text)}
             />
           </Item>
@@ -75,9 +67,9 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
           </Button>
           <TouchableOpacity
             onPress={() => navigation.navigate('SignUp')}
-            style={{ marginTop: 10 }}
+            style={styles.signUpTextContainer}
           >
-            <Text style={{ color: '#fff', textAlign: 'center' }}>
+            <Text style={styles.signUpText}>
               Do not have an account, SignUp here
             </Text>
           </TouchableOpacity>
@@ -88,7 +80,7 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
 };
 
 interface LinkDispatchProps {
-  signIn: (data: SigninDetails) => void;
+  signIn: (data: SigninPayload) => void;
 }
 
 const mapDispatchToProps: LinkDispatchProps = {
@@ -111,5 +103,23 @@ const styles = StyleSheet.create({
   },
   formItem: {
     marginBottom: 20,
+  },
+  scrollView: {
+    flexGrow: 1,
+  },
+  image: {
+    width: undefined,
+    height: 150,
+    marginTop: 30,
+  },
+  input: {
+    color: '#eee',
+  },
+  signUpTextContainer: {
+    marginTop: 10,
+  },
+  signUpText: {
+    color: '#fff',
+    textAlign: 'center',
   },
 });

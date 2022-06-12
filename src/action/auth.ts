@@ -1,69 +1,102 @@
-import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
+import AsyncStorage from '@react-native-community/async-storage';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Snackbar from 'react-native-snackbar';
-import { SigninDetails, SignupDetails } from '../types';
+import { Dispatch } from 'redux';
+import { API } from '../api';
+import { RootStackParamList } from '../App';
+import { SigninPayload, SigninResponse, SignupPayload } from '../types';
+import {
+  AuthActionTypes,
+  SET_AUTH_ERROR,
+  SET_AUTH_LOADING,
+  SIGN_IN,
+  SIGN_OUT,
+} from './action.types';
 
-// should be using async/await inside these functions
+export const signUp =
+  (
+    data: SignupPayload,
+    navigation: NativeStackNavigationProp<RootStackParamList>
+  ) =>
+  async (dispatch: Dispatch<AuthActionTypes>) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { name, instaUserName, bio, email, password, country, image } = data;
 
-export const signUp = (data: SignupDetails) => async () => {
-  console.log(data);
-  const { name, instaUserName, bio, email, password, country, image } = data;
-
-  auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(data => {
-      console.log(data);
-      console.log('user created successfully');
-
-      database()
-        .ref('/users/' + data.user.uid)
-        .set({ name, instaUserName, country, image, bio, uid: data.user.uid })
-        .then(() => {
-          console.log('data set success');
-          Snackbar.show({
-            text: 'account created',
-            textColor: 'white',
-            backgroundColor: '#1b262c',
-          });
-        });
-    })
-    .catch(error => {
-      console.log(error);
-      Snackbar.show({
-        text: 'Signup failed',
-        textColor: 'white',
-        backgroundColor: 'red',
+    dispatch({ type: SET_AUTH_LOADING, payload: true });
+    try {
+      await API.post('/signup', {
+        email,
+        password,
+        name,
+        instaUserName,
+        bio,
+        country,
       });
-    });
-};
 
-export const signIn = (data: SigninDetails) => async () => {
-  console.log(data);
-  const { email, password } = data;
+      dispatch({ type: SET_AUTH_LOADING, payload: false });
 
-  auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(() => {
-      console.log('signin success');
+      navigation.navigate('SignIn');
+
       Snackbar.show({
-        text: 'account signin',
+        text: 'account created, please sign in',
         textColor: 'white',
         backgroundColor: '#1b262c',
       });
-    })
-    .catch(error => {
-      console.error(error);
+    } catch (error: any) {
+      console.log(error, 'signup failed');
+      const errorMessage = error?.response?.data?.error || 'signup failed';
+
       Snackbar.show({
-        text: 'signin failed',
+        text: errorMessage,
         textColor: 'white',
         backgroundColor: 'red',
       });
-    });
-};
+      dispatch({
+        type: SET_AUTH_ERROR,
+        payload: errorMessage,
+      });
+    }
+  };
 
-export const signout = () => async () => {
+export const signIn =
+  (data: SigninPayload) => async (dispatch: Dispatch<AuthActionTypes>) => {
+    const { email, password } = data;
+
+    dispatch({ type: SET_AUTH_LOADING, payload: true });
+
+    try {
+      const { data }: { data: SigninResponse } = await API.post('/signin', {
+        email,
+        password,
+      });
+
+      dispatch({ type: SIGN_IN, payload: data.user });
+
+      await AsyncStorage.setItem('@USER', JSON.stringify(data));
+
+      Snackbar.show({
+        text: 'signin successful',
+        textColor: 'white',
+        backgroundColor: '#1b262c',
+      });
+    } catch (error: any) {
+      console.log(error, 'signin failed');
+      Snackbar.show({
+        text: error?.response?.data?.error || 'signin failed',
+        textColor: 'white',
+        backgroundColor: 'red',
+      });
+      dispatch({
+        type: SET_AUTH_ERROR,
+        payload: error?.response?.data?.error || 'signin failed',
+      });
+    }
+  };
+
+export const signout = () => async (dispatch: Dispatch<AuthActionTypes>) => {
   try {
-    await auth().signOut();
+    await AsyncStorage.removeItem('@USER');
+    dispatch({ type: SIGN_OUT });
 
     Snackbar.show({
       text: 'Signout success',

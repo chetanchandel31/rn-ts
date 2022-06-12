@@ -15,16 +15,12 @@ export interface Votes {
   [userId: string]: { type: 'upvote' | 'downvote' };
 }
 
-// schema for user object that we store in db is different from firebase's default user object's schema
-export interface UserDetails extends SignupDetails {
-  uid: string;
-}
-
 // store
 export interface AuthState {
   isAuthenticated: boolean;
+  error: null | string;
   loading: boolean;
-  user: null | UserDetails; // TODO: change
+  user: null | User;
 }
 
 export interface PostsState {
@@ -34,7 +30,16 @@ export interface PostsState {
 }
 
 // auth
-export interface SignupDetails {
+export interface User {
+  email: string;
+  name: string;
+  instaUserName: string;
+  bio: string;
+  country: string;
+  _id: string;
+}
+
+export interface SignupPayload {
   name: string;
   instaUserName: string;
   bio: string;
@@ -44,7 +49,14 @@ export interface SignupDetails {
   image: string;
 }
 
-export type SigninDetails = {
+export type SigninPayload = {
   email: string;
   password: string;
 };
+
+export interface SigninResponse {
+  token: string;
+  user: User;
+}
+
+export interface SignupResponse extends User {}

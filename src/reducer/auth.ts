@@ -1,27 +1,52 @@
-import { IS_AUTHENTICATED, SET_USER } from '../action/action.types';
+import {
+  AuthActionTypes,
+  SET_AUTH_ERROR,
+  SET_AUTH_LOADING,
+  SIGN_IN,
+  SIGN_OUT,
+} from '../action/action.types';
 import { AuthState } from '../types';
 
 const initialState: AuthState = {
+  error: null,
   user: null,
   loading: true,
   isAuthenticated: false,
 };
 
-export default (state = initialState, action: any): AuthState => {
-  // TODO: auth action types once we know more about SET_USER
+export default (state = initialState, action: AuthActionTypes): AuthState => {
   switch (action.type) {
-    case SET_USER:
+    case SET_AUTH_LOADING:
       return {
         ...state,
-        user: action.payload,
-        loading: false,
+        loading: action.payload,
       };
 
-    case IS_AUTHENTICATED:
+    case SIGN_IN:
       return {
         ...state,
-        isAuthenticated: action.payload,
+        isAuthenticated: true,
         loading: false,
+        user: action.payload,
+        error: null,
+      };
+
+    case SET_AUTH_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+      };
+
+    case SIGN_OUT:
+      return {
+        ...state,
+        error: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
       };
 
     default:
