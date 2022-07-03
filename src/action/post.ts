@@ -15,3 +15,25 @@ export const getPosts = () => {
     }
   };
 };
+
+export const votePost = ({
+  id,
+  voteType,
+}: {
+  id: string;
+  voteType: 'upvote' | 'downvote';
+}) => {
+  return async (dispatch: Dispatch<AppActions>) => {
+    try {
+      dispatch({ type: 'SET_POSTS_LOADING', payload: true });
+
+      const { data }: { data: Post } = await API.post(
+        `/posts/${id}/${voteType}`
+      );
+
+      dispatch({ type: 'UPDATE_POST', payload: data });
+    } catch (err) {
+      dispatch({ type: ERROR_POST });
+    }
+  };
+};

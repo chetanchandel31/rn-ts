@@ -5,9 +5,11 @@ export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SET_AUTH_ERROR = 'SET_AUTH_ERROR';
 
-export const GET_POSTS = 'GET_POSTS';
 export const ERROR_POST = 'ERROR_POST';
+export const SET_POSTS_LOADING = 'SET_POSTS_LOADING';
+export const GET_POSTS = 'GET_POSTS';
 export const DELETE_POST = 'DELETE_POST';
+export const UPDATE_POST = 'UPDATE_POST';
 
 // post actions (add, delete, edit etc)
 export interface GetPostsAction {
@@ -22,6 +24,16 @@ export interface DeletePostAction {
 
 export interface ErrorPostAction {
   type: typeof ERROR_POST;
+}
+
+export interface SetPostsLoading {
+  type: typeof SET_POSTS_LOADING;
+  payload: boolean;
+}
+
+export interface UpdatePostAction {
+  type: typeof UPDATE_POST;
+  payload: Post;
 }
 
 // auth actions
@@ -50,6 +62,8 @@ export type AuthActionTypes = SignIn | SignOut | SetAuthLoading | SetAuthError;
 export type PostActionTypes =
   | GetPostsAction
   | DeletePostAction
-  | ErrorPostAction;
+  | UpdatePostAction
+  | ErrorPostAction
+  | SetPostsLoading;
 
 export type AppActions = PostActionTypes | AuthActionTypes; // use union to add other action types

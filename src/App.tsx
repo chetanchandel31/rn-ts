@@ -42,6 +42,7 @@ const App = ({ authState }: AppProps) => {
       try {
         const storedValue = await AsyncStorage.getItem('@USER');
         const user = typeof storedValue === 'string' && JSON.parse(storedValue);
+        // console.log(user, 'USER'); // TODO: remove
 
         if (user) {
           dispatch({ type: SIGN_IN, payload: user.user as User });

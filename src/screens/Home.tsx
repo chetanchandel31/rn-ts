@@ -9,12 +9,12 @@ import { getPosts } from '../action/post';
 import EmptyContainer from '../components/EmptyContainer';
 import Post from '../components/Post';
 import { AppState } from '../store';
-import { AuthState, PostsState } from '../types';
+import { PostsState } from '../types';
 
 type HomeProps = LinkDispatchProps & LinkStateProps;
 
 const Home = (props: HomeProps) => {
-  const { getPosts, postsState, userDetails } = props;
+  const { getPosts, postsState } = props;
 
   useEffect(() => {
     getPosts();
@@ -30,9 +30,7 @@ const Home = (props: HomeProps) => {
       <FlatList
         data={postsState.posts}
         keyExtractor={item => String(item._id)}
-        renderItem={({ item }) => (
-          <Post item={item} userDetails={userDetails} />
-        )}
+        renderItem={({ item }) => <Post item={item} />}
         ListEmptyComponent={() => (
           <Container style={styles.emptyContainer}>
             <H1 style={styles.text}>No post found</H1>
@@ -45,7 +43,6 @@ const Home = (props: HomeProps) => {
 
 interface LinkStateProps {
   postsState: PostsState;
-  userDetails: AuthState;
 }
 
 interface LinkDispatchProps {
@@ -58,7 +55,6 @@ const mapDispatchToProps: LinkDispatchProps = {
 
 const mapStateToProps = (state: AppState): LinkStateProps => ({
   postsState: state.post,
-  userDetails: state.auth,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

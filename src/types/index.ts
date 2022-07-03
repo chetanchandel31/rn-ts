@@ -2,17 +2,14 @@ export interface Post {
   description: string;
   location: string;
   picture: string;
-  by: string;
   date: number;
   instaId: string;
   userImage: string;
   _id: string;
   // vote?: { upvote: boolean } | { downvote: boolean };
-  vote?: Votes;
-}
-
-export interface Votes {
-  [userId: string]: { type: 'upvote' | 'downvote' };
+  upvotes?: string[];
+  downvotes?: string[];
+  user: User;
 }
 
 // store

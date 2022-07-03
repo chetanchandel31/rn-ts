@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
 import {
   Card,
@@ -11,53 +11,16 @@ import {
   Body,
   Right,
 } from 'native-base';
-import database from '@react-native-firebase/database';
-import { AuthState, Post as PostSchema, Votes } from '../types';
+import { Post as PostSchema } from '../types';
+import { votePost } from '../action/post';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 
 interface PostProps {
   item: PostSchema;
-  userDetails: AuthState;
 }
 
-const Post = ({ item, userDetails }: PostProps) => {
-  const [upvote, setUpvote] = useState(0);
-  const [downvote, setDownvote] = useState(0);
-
-  const upVotePost = () => {
-    database()
-      .ref(`/posts/${item._id}/vote/${userDetails.user?._id}`)
-      .set({ type: 'upvote' })
-      .then(() => console.log('upvoted'));
-  };
-
-  const downVotePost = () => {
-    database()
-      .ref(`/posts/${item._id}/vote/${userDetails.user?._id}`)
-      .set({ type: 'downvote' })
-      .then(() => console.log('downvoted'));
-  };
-
-  useEffect(() => {
-    if (item.vote) {
-      let upVote = 0;
-      let downVote = 0;
-
-      const votes: Votes = item.vote;
-
-      Object.values(votes).forEach(val => {
-        if (val.type === 'upvote') {
-          upVote += 1;
-        }
-
-        if (val.type === 'downvote') {
-          downVote += 1;
-        }
-      });
-
-      setUpvote(upVote);
-      setDownvote(downVote);
-    }
-  }, [item]);
+const Post = ({ item }: PostProps) => {
+  const dispatch = useAppDispatch();
 
   return (
     <Card style={styles.cardContainer}>
@@ -65,7 +28,7 @@ const Post = ({ item, userDetails }: PostProps) => {
         <Left>
           <Thumbnail source={{ uri: item.userImage }} small />
           <Body>
-            <Text style={styles.userName}>{item.by}</Text>
+            <Text style={styles.userName}>{item.user.name}</Text>
 
             <Text note>{item.location}</Text>
           </Body>
@@ -82,17 +45,27 @@ const Post = ({ item, userDetails }: PostProps) => {
 
       <CardItem style={styles.cardFooter}>
         <Left>
-          <Button transparent onPress={upVotePost}>
+          <Button
+            transparent
+            onPress={() =>
+              dispatch(votePost({ id: item._id, voteType: 'upvote' }))
+            }
+          >
             <Icon name="thumbs-up" type="Entypo" style={styles.upvoteIcon} />
-            <Text style={styles.upvoteText}>{upvote}</Text>
+            <Text style={styles.upvoteText}>{item.upvotes?.length}</Text>
           </Button>
-          <Button transparent onPress={downVotePost}>
+          <Button
+            transparent
+            onPress={() =>
+              dispatch(votePost({ id: item._id, voteType: 'downvote' }))
+            }
+          >
             <Icon
               name="thumbs-down"
               type="Entypo"
               style={styles.downvoteIcon}
             />
-            <Text style={styles.downvoteText}>{downvote}</Text>
+            <Text style={styles.downvoteText}>{item.downvotes?.length}</Text>
           </Button>
         </Left>
         <Right>
