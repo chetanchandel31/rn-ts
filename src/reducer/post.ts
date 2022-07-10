@@ -1,4 +1,5 @@
 import {
+  CREATE_POST,
   ERROR_POST,
   GET_POSTS,
   PostActionTypes,
@@ -21,6 +22,14 @@ export default (state = initialState, action: PostActionTypes): PostsState => {
         posts: action.payload,
         loading: false,
         error: false,
+      };
+
+    case CREATE_POST:
+      return {
+        ...state,
+        posts: [action.payload, ...(state.posts || [])],
+        error: false,
+        loading: false,
       };
 
     case UPDATE_POST:

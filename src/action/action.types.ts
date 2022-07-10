@@ -8,6 +8,7 @@ export const SET_AUTH_ERROR = 'SET_AUTH_ERROR';
 export const ERROR_POST = 'ERROR_POST';
 export const SET_POSTS_LOADING = 'SET_POSTS_LOADING';
 export const GET_POSTS = 'GET_POSTS';
+export const CREATE_POST = 'CREATE_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_POST = 'UPDATE_POST';
 
@@ -15,6 +16,11 @@ export const UPDATE_POST = 'UPDATE_POST';
 export interface GetPostsAction {
   type: typeof GET_POSTS;
   payload: Post[];
+}
+
+export interface CreatePostAction {
+  type: typeof CREATE_POST;
+  payload: Post;
 }
 
 export interface DeletePostAction {
@@ -61,6 +67,7 @@ export type AuthActionTypes = SignIn | SignOut | SetAuthLoading | SetAuthError;
 
 export type PostActionTypes =
   | GetPostsAction
+  | CreatePostAction
   | DeletePostAction
   | UpdatePostAction
   | ErrorPostAction

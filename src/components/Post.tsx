@@ -1,19 +1,20 @@
-import React from 'react';
-import { Image, Linking, StyleSheet } from 'react-native';
+import { API_BASE_URL } from '@env';
 import {
+  Body,
+  Button,
   Card,
   CardItem,
-  Thumbnail,
-  Text,
-  Button,
   Icon,
   Left,
-  Body,
   Right,
+  Text,
+  Thumbnail,
 } from 'native-base';
-import { Post as PostSchema } from '../types';
+import React from 'react';
+import { Image, Linking, StyleSheet } from 'react-native';
 import { votePost } from '../action/post';
 import { useAppDispatch } from '../hooks/useAppDispatch';
+import { Post as PostSchema } from '../types';
 
 interface PostProps {
   item: PostSchema;
@@ -35,7 +36,10 @@ const Post = ({ item }: PostProps) => {
         </Left>
       </CardItem>
       <CardItem cardBody>
-        <Image source={{ uri: item.picture }} style={styles.image} />
+        <Image
+          source={{ uri: `${API_BASE_URL}/posts/${item._id}/image` }}
+          style={styles.image}
+        />
       </CardItem>
       <CardItem cardBody style={styles.cardDescription}>
         <Text numberOfLines={2} style={styles.description}>

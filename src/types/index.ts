@@ -1,12 +1,10 @@
 export interface Post {
   description: string;
   location: string;
-  picture: string;
   date: number;
   instaId: string;
   userImage: string;
   _id: string;
-  // vote?: { upvote: boolean } | { downvote: boolean };
   upvotes?: string[];
   downvotes?: string[];
   user: User;
