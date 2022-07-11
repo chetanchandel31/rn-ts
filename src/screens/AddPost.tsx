@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  // , Image
-} from 'react-native';
+import { StyleSheet, ScrollView, Image } from 'react-native';
 import {
   Container,
   Content,
@@ -34,7 +30,7 @@ const AddPost = ({ navigation }: AddPostProps) => {
   const [description, setDescription] = useState('');
   const [isAddPostLoading, setIsAddPostLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const [image, setImage] = useState<ImagePickerResponse | null>(null); // TODO: figure how to show image preview
+  const [image, setImage] = useState<ImagePickerResponse | null>(null);
 
   const chooseImage = async () => {
     ImagePicker.showImagePicker(options, response => {
@@ -84,15 +80,6 @@ const AddPost = ({ navigation }: AddPostProps) => {
     <Container style={styles.container}>
       <Content padder>
         <ScrollView contentContainerStyle={styles.scrollView}>
-          {/* TODO: delete Progressbar package if not needed */}
-          {/* TODO: figure how to show image preview */}
-          {/* {image ? (
-            <Image
-              source={{ uri: image }}
-              style={styles.image}
-              resizeMode="center"
-            />
-          ) : null} */}
           <Form>
             <Item regular style={styles.formItem}>
               <Input
@@ -102,6 +89,14 @@ const AddPost = ({ navigation }: AddPostProps) => {
                 onChangeText={text => setLocation(text)}
               />
             </Item>
+
+            {image && (
+              <Image
+                source={{ uri: `data:${image.type};base64,${image.data}` }}
+                style={styles.image}
+                resizeMode="center"
+              />
+            )}
 
             <Button
               // regular
