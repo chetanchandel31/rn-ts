@@ -2,9 +2,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Snackbar from 'react-native-snackbar';
 import { Dispatch } from 'redux';
-import { API } from '../api';
-import { RootStackParamList } from '../App';
-import { SigninPayload, SigninResponse, SignupPayload } from '../types';
+import { API } from '../../api';
+import { RootStackParamList } from '../../view/App';
+import { SigninPayload, SigninResponse, SignupPayload } from '../../types';
 import {
   AuthActionTypes,
   SET_AUTH_ERROR,

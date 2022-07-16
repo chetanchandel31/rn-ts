@@ -13,13 +13,13 @@ import {
 
 // redux
 import { connect } from 'react-redux';
-import { deletePost, getPosts } from '../action/post';
+import { deletePost, getPosts } from '../../redux/action/post';
 
 import EmptyContainer from '../components/EmptyContainer';
 import Post from '../components/Post';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { AppState } from '../store';
-import { PostsState } from '../types';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { AppState } from '../../redux/store/store';
+import { PostsState } from '../../types';
 
 type HomeProps = LinkDispatchProps & LinkStateProps;
 

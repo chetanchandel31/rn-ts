@@ -5,7 +5,7 @@ import {
   SIGN_IN,
   SIGN_OUT,
 } from '../action/action.types';
-import { AuthState } from '../types';
+import { AuthState } from '../../types';
 
 const initialState: AuthState = {
   error: null,

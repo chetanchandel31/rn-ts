@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import App from './App';
-import store from './store';
+import App from './view/App';
+import store from './redux/store/store';
 
 const RootApp = () => {
   return (

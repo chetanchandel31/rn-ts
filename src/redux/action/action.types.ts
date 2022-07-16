@@ -1,4 +1,4 @@
-import { Post, User } from '../types';
+import { Post, User } from '../../types';
 
 export const SET_AUTH_LOADING = 'SET_AUTH_LOADING';
 export const SIGN_IN = 'SIGN_IN';

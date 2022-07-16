@@ -5,7 +5,7 @@ import storage from '@react-native-firebase/storage';
 import { Bar } from 'react-native-progress';
 
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
-import { options } from '../utils/options';
+import { options } from '../../utils/options';
 
 // redux
 import {
@@ -23,9 +23,9 @@ import {
   View,
 } from 'native-base';
 import { connect } from 'react-redux';
-import { signUp } from '../action/auth';
+import { signUp } from '../../redux/action/auth';
 import { RootStackParamList } from '../App';
-import { SignupPayload } from '../types';
+import { SignupPayload } from '../../types';
 
 type SignUpProps = LinkDispatchProps &
   NativeStackScreenProps<RootStackParamList>;

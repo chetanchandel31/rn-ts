@@ -13,14 +13,14 @@ import {
 } from 'native-base';
 
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
-import { options } from '../utils/options';
+import { options } from '../../utils/options';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import Snackbar from 'react-native-snackbar';
-import { User } from '../types';
-import { createPost } from '../action/post';
-import { useAppDispatch } from '../hooks/useAppDispatch';
+import { User } from '../../types';
+import { createPost } from '../../redux/action/post';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import EmptyContainer from '../components/EmptyContainer';
 
 type AddPostProps = LinkStateProps & NativeStackScreenProps<RootStackParamList>;

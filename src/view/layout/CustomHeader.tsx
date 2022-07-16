@@ -3,9 +3,9 @@ import React from 'react';
 import { Body, Button, Header, Icon, Right, Text, Title } from 'native-base';
 
 import { connect } from 'react-redux';
-import { signout } from '../action/auth';
-import { AppState } from '../store';
-import { AuthState } from '../types';
+import { signout } from '../../redux/action/auth';
+import { AppState } from '../../redux/store/store';
+import { AuthState } from '../../types';
 import { StyleSheet } from 'react-native';
 
 interface CustomHeaderOwnProps {

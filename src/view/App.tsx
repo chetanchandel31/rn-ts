@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect } from 'react';
 import EmptyContainer from './components/EmptyContainer';
 import CustomHeader from './layout/CustomHeader';
-import { requestPermission } from './utils/askPermission';
+import { requestPermission } from '../utils/askPermission';
 // react navigation
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -14,10 +14,10 @@ import SignUp from './screens/SignUp';
 // redux
 import { connect } from 'react-redux';
 // firebase
-import { SIGN_IN, SIGN_OUT } from './action/action.types';
-import { useAppDispatch } from './hooks/useAppDispatch';
-import { AppState } from './store';
-import { AuthState, User } from './types';
+import { SIGN_IN, SIGN_OUT } from '../redux/action/action.types';
+import { useAppDispatch } from '../hooks/useAppDispatch';
+import { AppState } from '../redux/store/store';
+import { AuthState, User } from '../types';
 
 export type RootStackParamList = {
   Home: undefined;

@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Text, Container, H3, Form, Item, Input, Button } from 'native-base';
 
-import Welcome from '../assets/welcome.png';
+import Welcome from '../../assets/welcome.png';
 
 import { connect } from 'react-redux';
-import { signIn } from '../action/auth';
+import { signIn } from '../../redux/action/auth';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
-import { SigninPayload } from '../types';
+import { SigninPayload } from '../../types';
 import Snackbar from 'react-native-snackbar';
 
 type SignInProps = NativeStackScreenProps<RootStackParamList> &

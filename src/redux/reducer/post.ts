@@ -7,7 +7,7 @@ import {
   SET_POSTS_LOADING,
   UPDATE_POST,
 } from '../action/action.types';
-import { PostsState } from '../types';
+import { PostsState } from '../../types';
 
 const initialState: PostsState = {
   posts: null,

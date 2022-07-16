@@ -1,9 +1,9 @@
 import { ImagePickerResponse } from 'react-native-image-picker';
 import Snackbar from 'react-native-snackbar';
 import { Dispatch } from 'redux';
-import { API } from '../api';
-import { AppState } from '../store';
-import { Post } from '../types';
+import { API } from '../../api';
+import { AppState } from '../store/store';
+import { Post } from '../../types';
 import { AppActions, ERROR_POST } from './action.types';
 
 export const getPosts = () => {

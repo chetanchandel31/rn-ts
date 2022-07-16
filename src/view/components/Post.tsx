@@ -13,10 +13,10 @@ import {
 import React from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
-import { votePost } from '../action/post';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { AppState } from '../store';
-import { Post as PostSchema } from '../types';
+import { votePost } from '../../redux/action/post';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { AppState } from '../../redux/store/store';
+import { Post as PostSchema } from '../../types';
 
 interface PostProps {
   item: PostSchema;
