@@ -12,16 +12,20 @@ import {
 } from 'native-base';
 import React from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
+import { useSelector } from 'react-redux';
 import { votePost } from '../action/post';
 import { useAppDispatch } from '../hooks/useAppDispatch';
+import { AppState } from '../store';
 import { Post as PostSchema } from '../types';
 
 interface PostProps {
   item: PostSchema;
+  selectPostId: (postId: string) => void;
 }
 
-const Post = ({ item }: PostProps) => {
+const Post = ({ item, selectPostId }: PostProps) => {
   const dispatch = useAppDispatch();
+  const { user } = useSelector((state: AppState) => state.auth);
 
   return (
     <Card style={styles.cardContainer}>
@@ -34,6 +38,18 @@ const Post = ({ item }: PostProps) => {
             <Text note>{item.location}</Text>
           </Body>
         </Left>
+
+        {user?._id && user?._id === item.user._id && (
+          <Right>
+            <Button transparent onPress={() => selectPostId(item._id)}>
+              <Icon
+                name="dots-three-vertical"
+                type="Entypo"
+                style={styles.upvoteIcon}
+              />
+            </Button>
+          </Right>
+        )}
       </CardItem>
       <CardItem cardBody>
         <Image

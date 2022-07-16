@@ -1,5 +1,6 @@
 import {
   CREATE_POST,
+  DELETE_POST,
   ERROR_POST,
   GET_POSTS,
   PostActionTypes,
@@ -42,6 +43,15 @@ export default (state = initialState, action: PostActionTypes): PostsState => {
             }
             return post;
           }) || null,
+        error: false,
+        loading: false,
+      };
+
+    case DELETE_POST:
+      return {
+        ...state,
+        posts:
+          state.posts?.filter(post => post._id !== action.payload.id) || null,
         error: false,
         loading: false,
       };
