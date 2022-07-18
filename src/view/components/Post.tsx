@@ -31,7 +31,10 @@ const Post = ({ item, selectPostId }: PostProps) => {
     <Card style={styles.cardContainer}>
       <CardItem style={styles.cardHeader}>
         <Left>
-          <Thumbnail source={{ uri: item.userImage }} small />
+          <Thumbnail
+            source={{ uri: `${API_BASE_URL}/users/${item.user._id}/image` }}
+            small
+          />
           <Body>
             <Text style={styles.userName}>{item.user.name}</Text>
 

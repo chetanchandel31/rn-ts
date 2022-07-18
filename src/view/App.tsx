@@ -13,7 +13,6 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 // redux
 import { connect } from 'react-redux';
-// firebase
 import { SIGN_IN, SIGN_OUT } from '../redux/action/action.types';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { AppState } from '../redux/store/store';
@@ -34,15 +33,12 @@ interface AppProps {
 
 const App = ({ authState }: AppProps) => {
   const dispatch = useAppDispatch();
-  // const reduxState = useSelector(state => state);
-  // console.log(reduxState, 'redux state');
 
   useEffect(() => {
     const setUserFromAsyncStorage = async () => {
       try {
         const storedValue = await AsyncStorage.getItem('@USER');
         const user = typeof storedValue === 'string' && JSON.parse(storedValue);
-        // console.log(user, 'USER'); // TODO: remove
 
         if (user) {
           dispatch({ type: SIGN_IN, payload: user.user as User });
@@ -63,29 +59,27 @@ const App = ({ authState }: AppProps) => {
   }
 
   return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            header: props => {
-              return <CustomHeader {...props} />;
-            },
-          }}
-        >
-          {authState?.isAuthenticated ? (
-            <>
-              <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="AddPost" component={AddPost} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="SignIn" component={SignIn} />
-              <Stack.Screen name="SignUp" component={SignUp} />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          header: props => {
+            return <CustomHeader {...props} />;
+          },
+        }}
+      >
+        {authState?.isAuthenticated ? (
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="AddPost" component={AddPost} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

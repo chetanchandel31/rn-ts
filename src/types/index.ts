@@ -1,9 +1,10 @@
+import { ImagePickerResponse } from 'react-native-image-picker';
+
 export interface Post {
   description: string;
   location: string;
   date: number;
   instaId: string;
-  userImage: string;
   _id: string;
   upvotes?: string[];
   downvotes?: string[];
@@ -41,7 +42,7 @@ export interface SignupPayload {
   email: string;
   password: string;
   country: string;
-  image: string;
+  image: ImagePickerResponse | null;
 }
 
 export type SigninPayload = {

@@ -19,7 +19,6 @@ export const signUp =
     navigation: NativeStackNavigationProp<RootStackParamList>
   ) =>
   async (dispatch: Dispatch<AuthActionTypes>) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { name, instaUserName, bio, email, password, country, image } = data;
 
     dispatch({ type: SET_AUTH_LOADING, payload: true });
@@ -31,6 +30,7 @@ export const signUp =
         instaUserName,
         bio,
         country,
+        image,
       });
 
       dispatch({ type: SET_AUTH_LOADING, payload: false });

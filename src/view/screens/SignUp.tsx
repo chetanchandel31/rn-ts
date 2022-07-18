@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import storage from '@react-native-firebase/storage';
-import { Bar } from 'react-native-progress';
+import ProfilePicSelectIcon from '../../assets/choose-profile-pic.png';
 
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import { options } from '../../utils/options';
@@ -26,6 +25,7 @@ import { connect } from 'react-redux';
 import { signUp } from '../../redux/action/auth';
 import { RootStackParamList } from '../App';
 import { SignupPayload } from '../../types';
+import Snackbar from 'react-native-snackbar';
 
 type SignUpProps = LinkDispatchProps &
   NativeStackScreenProps<RootStackParamList>;
@@ -37,12 +37,7 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
   const [instaUserName, setInstaUserName] = useState('');
   const [country, setCountry] = useState('');
   const [bio, setBio] = useState('');
-  const [image, setImage] = useState(
-    'https://firebase.google.com/downloads/brand-guidelines/PNG/logo-logomark.png'
-  );
-
-  const [imageUploading, setImageUploading] = useState(false);
-  const [uploadStatus, setUploadStatus] = useState<boolean | number>(false);
+  const [image, setImage] = useState<ImagePickerResponse | null>(null);
 
   const chooseImage = async () => {
     ImagePicker.showImagePicker(options, response => {
@@ -55,39 +50,30 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        console.log(response);
-        uploadImage(response);
+        setImage(response);
       }
     });
   };
 
-  const uploadImage = async (response: ImagePickerResponse) => {
-    setImageUploading(true);
-    const reference = storage().ref(`${response.fileName}-${Date.now()}`);
-
-    if (!response.path) {
-      return console.log('😭');
+  const doSignUp = () => {
+    if (!name || !instaUserName || !bio || !country || !email || !password) {
+      return Snackbar.show({
+        text: 'Please add all fields',
+        textColor: 'white',
+        backgroundColor: 'red',
+      });
     }
 
-    const task = reference.putFile(response.path); // apparently .path is the image file itself?
-    task.on('state_changed', taskSnapshot => {
-      const percentage =
-        (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 1000;
-
-      setUploadStatus(percentage);
-    });
-
-    task.then(async () => {
-      const url = await reference.getDownloadURL();
-
-      setImage(url);
-      setImageUploading(false);
-    });
-  };
-
-  const doSignUp = () => {
     signUp(
-      { name, instaUserName, bio, country, email, password, image },
+      {
+        name,
+        instaUserName,
+        bio,
+        country,
+        email,
+        password,
+        image,
+      },
       navigation
     );
   };
@@ -98,16 +84,28 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.imageContainer}>
             <TouchableOpacity onPress={chooseImage}>
-              <Thumbnail large source={{ uri: image }} />
+              <Thumbnail
+                large
+                source={
+                  image
+                    ? { uri: `data:${image.type};base64,${image.data}` }
+                    : ProfilePicSelectIcon
+                }
+              />
             </TouchableOpacity>
+            {!image ? (
+              <Text style={styles.whiteText}>
+                (optional) please choose a profile picture
+              </Text>
+            ) : (
+              <Text style={styles.whiteText}>
+                Tap on image to select a different one
+              </Text>
+            )}
           </View>
 
-          {imageUploading && typeof uploadStatus === 'number' && (
-            <Bar progress={uploadStatus} style={styles.progress} />
-          )}
-
           <Form>
-            <Item regular style={styles.formItem}>
+            <Item rounded style={styles.formItem}>
               <Input
                 placeholder="name"
                 value={name}
@@ -115,7 +113,7 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
                 onChangeText={text => setName(text)}
               />
             </Item>
-            <Item regular style={styles.formItem}>
+            <Item rounded style={styles.formItem}>
               <Input
                 placeholder="email"
                 value={email}
@@ -123,7 +121,7 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
                 onChangeText={text => setEmail(text)}
               />
             </Item>
-            <Item regular style={styles.formItem}>
+            <Item rounded style={styles.formItem}>
               <Input
                 placeholder="password"
                 value={password}
@@ -132,23 +130,23 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
                 onChangeText={text => setPassword(text)}
               />
             </Item>
-            <Item regular style={styles.formItem}>
+            <Item rounded style={styles.formItem}>
               <Input
-                placeholder="Instagram user name"
+                placeholder="instagram user name"
                 value={instaUserName}
                 style={styles.input}
                 onChangeText={text => setInstaUserName(text)}
               />
             </Item>
-            <Item regular style={styles.formItem}>
+            <Item rounded style={styles.formItem}>
               <Input
-                placeholder="Your Short Bio"
+                placeholder="your Short Bio"
                 value={bio}
                 style={styles.input}
                 onChangeText={text => setBio(text)}
               />
             </Item>
-            <Item regular style={styles.formItem}>
+            <Item rounded style={styles.formItem}>
               <Input
                 placeholder="country"
                 value={country}
@@ -156,13 +154,17 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
                 onChangeText={text => setCountry(text)}
               />
             </Item>
-            <Button
-              //  regular // TODO: check
-              block
-              onPress={doSignUp}
-            >
-              <Text>SignUp</Text>
+            <Button rounded block onPress={doSignUp}>
+              <Text style={styles.whiteText}>Sign Up</Text>
             </Button>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SignIn')}
+              // style={styles.signUpTextContainer}
+            >
+              <Text style={styles.signInText}>
+                Already have an account, SignIn here
+              </Text>
+            </TouchableOpacity>
           </Form>
         </ScrollView>
       </Content>
@@ -192,6 +194,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
     marginVertical: 5,
+    marginBottom: 16,
   },
   progress: {
     // width: null,
@@ -205,5 +208,13 @@ const styles = StyleSheet.create({
   },
   input: {
     color: '#eee',
+  },
+  whiteText: {
+    color: '#eee',
+  },
+  signInText: {
+    color: '#eee',
+    textAlign: 'center',
+    marginTop: 8,
   },
 });
