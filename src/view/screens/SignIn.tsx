@@ -9,7 +9,7 @@ import { signIn } from '../../redux/action/auth';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
-import { SigninPayload } from '../../types';
+import { Colors, SigninPayload } from '../../types';
 import Snackbar from 'react-native-snackbar';
 
 type SignInProps = NativeStackScreenProps<RootStackParamList> &
@@ -29,7 +29,7 @@ const SignIn = ({ navigation, signIn }: SignInProps) => {
     if (!email || !password) {
       return Snackbar.show({
         text: 'Please add all fields',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
     }
@@ -91,13 +91,13 @@ export default connect(null, mapDispatchToProps)(SignIn);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1b262c',
+    backgroundColor: Colors.BackgroundColor,
     flex: 1,
     justifyContent: 'flex-start',
   },
   heading: {
     textAlign: 'center',
-    color: '#fdcb9e',
+    color: Colors.TextColor,
     marginHorizontal: 5,
     marginTop: 30,
   },
@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   input: {
-    color: '#eee',
+    color: Colors.White,
   },
   signUpTextContainer: {
     marginTop: 10,
   },
   signUpText: {
-    color: '#fff',
+    color: Colors.White,
     textAlign: 'center',
   },
 });

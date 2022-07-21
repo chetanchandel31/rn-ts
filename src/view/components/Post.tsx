@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { votePost } from '../../redux/action/post';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { AppState } from '../../redux/store/store';
-import { Post as PostSchema } from '../../types';
+import { Colors, Post as PostSchema } from '../../types';
 
 interface PostProps {
   item: PostSchema;
@@ -115,19 +115,22 @@ const Post = ({ item, selectPostId }: PostProps) => {
 };
 
 const styles = StyleSheet.create({
-  cardContainer: { backgroundColor: '#0f4c75', borderColor: '#0f4c75' },
+  cardContainer: {
+    backgroundColor: Colors.Primary,
+    borderColor: Colors.Primary,
+  },
   cardHeader: { backgroundColor: 'transparent' },
-  userName: { color: '#fdcb9e' },
+  userName: { color: Colors.TextColor },
   image: { height: 200, width: undefined, flex: 1 },
   cardDescription: { backgroundColor: 'transparent', marginHorizontal: 10 },
-  description: { color: '#fff' },
-  cardFooter: { backgroundColor: '#0f4c75' },
-  upvoteIcon: { fontSize: 20, color: '#fdcb9e' },
-  upvoteText: { color: '#fdcb9e' },
-  downvoteIcon: { fontSize: 20, color: '#fdcb9e' },
-  downvoteText: { color: '#fdcb9e' },
-  openIn: { color: '#fdcb9e' },
-  instagramIcon: { fontSize: 20, color: '#fdcb9e' },
+  description: { color: Colors.White },
+  cardFooter: { backgroundColor: Colors.Primary },
+  upvoteIcon: { fontSize: 20, color: Colors.TextColor },
+  upvoteText: { color: Colors.TextColor },
+  downvoteIcon: { fontSize: 20, color: Colors.TextColor },
+  downvoteText: { color: Colors.TextColor },
+  openIn: { color: Colors.TextColor },
+  instagramIcon: { fontSize: 20, color: Colors.TextColor },
 });
 
 export default Post;

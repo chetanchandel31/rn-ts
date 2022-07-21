@@ -5,7 +5,7 @@ import { Body, Button, Header, Icon, Right, Text, Title } from 'native-base';
 import { connect } from 'react-redux';
 import { signout } from '../../redux/action/auth';
 import { AppState } from '../../redux/store/store';
-import { AuthState } from '../../types';
+import { AuthState, Colors } from '../../types';
 import { StyleSheet } from 'react-native';
 
 interface CustomHeaderOwnProps {
@@ -21,7 +21,7 @@ const CustomHeader = (props: CustomHeaderProps) => {
   const { navigation, signout, authState } = props;
 
   return (
-    <Header androidStatusBarColor="#0f4c75" style={styles.header}>
+    <Header androidStatusBarColor={Colors.Primary} style={styles.header}>
       <Body>
         <Title>Social Media</Title>
       </Body>
@@ -48,8 +48,8 @@ const CustomHeader = (props: CustomHeaderProps) => {
 };
 
 const styles = StyleSheet.create({
-  header: { backgroundColor: '#0f4c75' },
-  addPostText: { color: '#fdcb9e' },
+  header: { backgroundColor: Colors.Primary },
+  addPostText: { color: Colors.TextColor },
   signoutIcon: { color: 'red' },
 });
 

@@ -55,3 +55,10 @@ export interface SigninResponse {
 }
 
 export interface SignupResponse extends User {}
+
+export enum Colors {
+  BackgroundColor = '#1b262c',
+  Primary = '#0f4c75',
+  TextColor = '#fdcb9e',
+  White = '#eee',
+}

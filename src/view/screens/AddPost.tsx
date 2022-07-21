@@ -18,7 +18,7 @@ import { options } from '../../utils/options';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import Snackbar from 'react-native-snackbar';
-import { User } from '../../types';
+import { Colors, User } from '../../types';
 import { createPost } from '../../redux/action/post';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import EmptyContainer from '../components/EmptyContainer';
@@ -53,7 +53,7 @@ const AddPost = ({ navigation }: AddPostProps) => {
     if (!location || !description || !image) {
       return Snackbar.show({
         text: 'Please add all fields',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
     }
@@ -143,15 +143,15 @@ export default AddPost;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1b262c',
+    backgroundColor: Colors.BackgroundColor,
     flex: 1,
     justifyContent: 'flex-start',
   },
   formItem: { marginBottom: 20 },
-  icon: { fontSize: 20, color: '#fdcb9e' },
+  icon: { fontSize: 20, color: Colors.TextColor },
   image: { width: undefined, height: 150, marginVertical: 15 },
   progress: { width: undefined, marginBottom: 20 },
-  textArea: { color: '#eee' },
+  textArea: { color: Colors.White },
   scrollView: { flexGrow: 1 },
-  chooseImgBtn: { color: '#fdcb9e' },
+  chooseImgBtn: { color: Colors.TextColor },
 });

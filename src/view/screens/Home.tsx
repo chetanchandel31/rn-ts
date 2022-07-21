@@ -19,7 +19,7 @@ import EmptyContainer from '../components/EmptyContainer';
 import Post from '../components/Post';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { AppState } from '../../redux/store/store';
-import { PostsState } from '../../types';
+import { Colors, PostsState } from '../../types';
 
 type HomeProps = LinkDispatchProps & LinkStateProps;
 
@@ -106,18 +106,18 @@ export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1b262c',
+    backgroundColor: Colors.BackgroundColor,
     justifyContent: 'flex-start',
     padding: 4,
     flex: 1,
   },
   emptyContainer: {
     flex: 1,
-    backgroundColor: '#1b262c',
+    backgroundColor: Colors.BackgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: { color: '#eee' },
+  text: { color: Colors.White },
   modalOuterView: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.7)',
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalInnerView: {
-    backgroundColor: '#ffffff',
+    backgroundColor: Colors.White,
     width: '90%',
     borderRadius: 6,
     padding: 16,

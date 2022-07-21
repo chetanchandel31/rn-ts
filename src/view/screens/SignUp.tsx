@@ -24,7 +24,7 @@ import {
 import { connect } from 'react-redux';
 import { signUp } from '../../redux/action/auth';
 import { RootStackParamList } from '../App';
-import { SignupPayload } from '../../types';
+import { Colors, SignupPayload } from '../../types';
 import Snackbar from 'react-native-snackbar';
 
 type SignUpProps = LinkDispatchProps &
@@ -59,7 +59,7 @@ const SignUp = ({ navigation, signUp }: SignUpProps) => {
     if (!name || !instaUserName || !bio || !country || !email || !password) {
       return Snackbar.show({
         text: 'Please add all fields',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
     }
@@ -187,7 +187,7 @@ export default connect(null, mapDispatchToProps)(SignUp);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1b262c',
+    backgroundColor: Colors.BackgroundColor,
     flex: 1,
     justifyContent: 'flex-start',
   },
@@ -207,13 +207,13 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   input: {
-    color: '#eee',
+    color: Colors.White,
   },
   whiteText: {
-    color: '#eee',
+    color: Colors.White,
   },
   signInText: {
-    color: '#eee',
+    color: Colors.White,
     textAlign: 'center',
     marginTop: 8,
   },

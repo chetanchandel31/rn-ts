@@ -4,7 +4,12 @@ import Snackbar from 'react-native-snackbar';
 import { Dispatch } from 'redux';
 import { API } from '../../api';
 import { RootStackParamList } from '../../view/App';
-import { SigninPayload, SigninResponse, SignupPayload } from '../../types';
+import {
+  Colors,
+  SigninPayload,
+  SigninResponse,
+  SignupPayload,
+} from '../../types';
 import {
   AuthActionTypes,
   SET_AUTH_ERROR,
@@ -39,8 +44,8 @@ export const signUp =
 
       Snackbar.show({
         text: 'account created, please sign in',
-        textColor: 'white',
-        backgroundColor: '#1b262c',
+        textColor: Colors.White,
+        backgroundColor: Colors.BackgroundColor,
       });
     } catch (error: any) {
       console.log(error, 'signup failed');
@@ -48,7 +53,7 @@ export const signUp =
 
       Snackbar.show({
         text: errorMessage,
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
       dispatch({
@@ -76,14 +81,14 @@ export const signIn =
 
       Snackbar.show({
         text: 'signin successful',
-        textColor: 'white',
-        backgroundColor: '#1b262c',
+        textColor: Colors.White,
+        backgroundColor: Colors.BackgroundColor,
       });
     } catch (error: any) {
       console.log(error, 'signin failed');
       Snackbar.show({
         text: error?.response?.data?.error || 'signin failed',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
       dispatch({
@@ -100,8 +105,8 @@ export const signout = () => async (dispatch: Dispatch<AuthActionTypes>) => {
 
     Snackbar.show({
       text: 'Signout success',
-      textColor: 'white',
-      backgroundColor: '#1b262c',
+      textColor: Colors.White,
+      backgroundColor: Colors.BackgroundColor,
     });
   } catch (err) {
     console.log(err);

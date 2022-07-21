@@ -3,7 +3,7 @@ import Snackbar from 'react-native-snackbar';
 import { Dispatch } from 'redux';
 import { API } from '../../api';
 import { AppState } from '../store/store';
-import { Post } from '../../types';
+import { Colors, Post } from '../../types';
 import { AppActions, ERROR_POST } from './action.types';
 
 export const getPosts = () => {
@@ -17,7 +17,7 @@ export const getPosts = () => {
 
       Snackbar.show({
         text: 'failed to list posts',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
 
@@ -51,13 +51,13 @@ export const createPost = ({
 
       Snackbar.show({
         text: 'Added new post',
-        textColor: 'white',
-        backgroundColor: '#1b262c',
+        textColor: Colors.White,
+        backgroundColor: Colors.BackgroundColor,
       });
     } catch (error: any) {
       Snackbar.show({
         text: 'Post upload failed',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
 
@@ -87,7 +87,7 @@ export const votePost = ({
 
       Snackbar.show({
         text: 'failed to update post',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
 
@@ -115,15 +115,15 @@ export const deletePost = ({
 
       Snackbar.show({
         text: 'Post deleted successfully',
-        textColor: 'white',
-        backgroundColor: '#1b262c',
+        textColor: Colors.White,
+        backgroundColor: Colors.BackgroundColor,
       });
     } catch (error: any) {
       dispatch({ type: ERROR_POST });
 
       Snackbar.show({
         text: 'failed to delete post',
-        textColor: 'white',
+        textColor: Colors.White,
         backgroundColor: 'red',
       });
 
