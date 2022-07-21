@@ -4,7 +4,6 @@ export interface Post {
   description: string;
   location: string;
   date: number;
-  instaId: string;
   _id: string;
   upvotes?: string[];
   downvotes?: string[];

@@ -96,7 +96,9 @@ const Post = ({ item, selectPostId }: PostProps) => {
             transparent
             iconLeft
             onPress={() => {
-              Linking.openURL(`instagram://user?username=${item.instaId}`);
+              Linking.openURL(
+                `instagram://user?username=${user?.instaUserName}`
+              );
             }}
           >
             <Text style={styles.openIn}>Open in</Text>
